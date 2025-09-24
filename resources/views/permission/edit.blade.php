@@ -31,25 +31,26 @@
                         <path
                             d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
                     </svg>
-                    Add User
+
+                    Edit User
                 </span>
             </li>
         </ul>
     </div>
     <div class="w-full max-w-7xl px-6 py-4">
-        <h2 class="text-2xl font-bold mb-6">Create User</h2>
-        <p class="text-gray-500 dark:text-gray-400 text-sm mb-6">Please fill in the form below to create user</p>
-        <form action="{{ route('user.store') }}" method="POST" class="space-y-4">
+        <h2 class="text-2xl font-bold mb-6">Edit User</h2>
+        <p class="text-gray-500 dark:text-gray-400 text-sm mb-6">Please fill in the form below to edit user</p>
+        <form action="{{ route('user.update', $user->id) }}" method="POST" class="space-y-4">
             @csrf
-            @method('POST')
+            @method('PUT')
 
             <!-- Name -->
             <div class="form-control">
                 <label class="label">
                     <span class="label-text">Name</span>
                 </label>
-                <input type="text" name="name" value="{{ old('name') }}" class="input input-bordered w-full"
-                    required />
+                <input type="text" name="name" value="{{ old('name', $user->name) }}"
+                    class="input input-bordered w-full" required />
                 @error('name')
                     <span class="text-error text-sm">{{ $message }}</span>
                 @enderror
@@ -60,33 +61,9 @@
                 <label class="label">
                     <span class="label-text">Email</span>
                 </label>
-                <input type="email" name="email" value="{{ old('email') }}" class="input input-bordered w-full"
-                    required />
-                @error('email')
-                    <span class="text-error text-sm">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <!-- Password -->
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Password</span>
-                </label>
-                <input type="password" name="password" value="{{ old('password') }}" class="input input-bordered w-full"
-                    required />
-                @error('password')
-                    <span class="text-error text-sm">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <!-- Edit Password -->
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Confirm Password</span>
-                </label>
-                <input type="password" name="password_confirmation" value="{{ old('password_confirmation') }}"
+                <input type="email" name="email" value="{{ old('email', $user->email) }}"
                     class="input input-bordered w-full" required />
-                @error('password_confirmation')
+                @error('email')
                     <span class="text-error text-sm">{{ $message }}</span>
                 @enderror
             </div>
@@ -96,13 +73,12 @@
                 <label class="label">
                     <span class="label-text">Role</span>
                 </label>
-                <select name="roles_id" class="select select-bordered w-full">
+                <select name="role" class="select select-bordered w-full">
                     <option disabled>Pilih role</option>
-                    @foreach ($roles as $role)
-                        <option value="{{ $role->id }}">{{ $role->name }}</option>
-                    @endforeach
+                    <option value="admin" {{ old('role', $user->role) === 'admin' ? 'selected' : '' }}>Admin</option>
+                    <option value="user" {{ old('role', $user->role) === 'user' ? 'selected' : '' }}>User</option>
                 </select>
-                @error('roles_id')
+                @error('role')
                     <span class="text-error text-sm">{{ $message }}</span>
                 @enderror
             </div>
@@ -110,7 +86,7 @@
             <!-- Action Buttons -->
             <div class="flex justify-end gap-3 mt-6">
                 <a href="{{ route('user.index') }}" class="btn btn-ghost">Cancel</a>
-                <button type="submit" class="btn btn-primary">Create</button>
+                <button type="submit" class="btn btn-primary">Update</button>
             </div>
         </form>
     </div>

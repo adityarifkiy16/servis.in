@@ -41,7 +41,7 @@
 
     {{-- Main Content --}}
     <div class="w-full max-w-7xl mx-auto">
-        <h1 class="text-2xl font-bold mb-4">User Management</h1>
+        <h1 class="text-2xl font-bold mb-4">Role Management</h1>
         <div class="mb-4 flex justify-between items-center">
             <label class="input input-bordered flex items-center gap-2 w-1/3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-70" fill="none" viewBox="0 0 24 24"
@@ -52,7 +52,7 @@
                 <input type="text" placeholder="Search users..." class="grow bg-transparent focus:outline-none" />
             </label>
 
-            <a href="{{ route('user.create') }}" class="btn btn-outline">Add New User</a>
+            <a href="{{ route('role.create') }}" class="btn btn-outline">Add New Role</a>
         </div>
 
         <div class="overflow-x-auto">
@@ -65,13 +65,17 @@
                             </label>
                         </th>
                         <th>Name</th>
-                        <th>Role</th>
-                        <th>Created At</th>
+                        <th>Permission</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($users as $user)
+                    @if ($roles->isEmpty())
+                        <tr>
+                            <td colspan="5">No roles found.</td>
+                        </tr>
+                    @endif
+                    @foreach ($roles as $role)
                         <tr>
                             <th>
                                 <label>
@@ -80,29 +84,25 @@
                             </th>
                             <td>
                                 <div class="flex items-center gap-3">
-                                    <div class="avatar">
-                                        <div class="mask mask-squircle h-12 w-12">
-                                            <img src="https://i.pravatar.cc/150?u={{ $user->id }}"
-                                                alt="Avatar {{ $user->name }}" />
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="font-bold">{{ $user->name }}</div>
-                                        <div class="text-sm opacity-50">{{ $user->email }}</div>
-                                    </div>
+                                    <div class="font-bold">{{ $role->name }}</div>
                                 </div>
                             </td>
                             <td>
-                                <span
-                                    class="badge {{ $user->role?->name === 'Admin' ? 'badge-error' : 'badge-primary' }} badge-sm">
-                                    {{ ucfirst($user->role?->name ?? 'User') }}
-                                </span>
-
+                                @if ($role->permissions->isNotEmpty())
+                                    <div class="flex flex-wrap gap-2">
+                                        @foreach ($role->permissions as $permission)
+                                            <div class="badge text-secondary badge-soft">
+                                                {{ $permission->name }}
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <span class="text-gray-500 text-sm italic">No permissions</span>
+                                @endif
                             </td>
-                            <td>{{ $user->created_at->format('d M Y') }}</td>
                             <td>
-                                <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary btn-xs">Edit</a>
-                                <button onclick="confirmDelete({{ $user->id }})"
+                                <a href="{{ route('role.edit', $role->id) }}" class="btn btn-primary btn-xs">Edit</a>
+                                <button onclick="confirmDelete({{ $role->id }})"
                                     class="btn btn-error btn-xs">Delete</button>
                             </td>
                         </tr>
@@ -110,7 +110,7 @@
                 </tbody>
             </table>
             <div class="mt-4">
-                {{ $users->links() }}
+                {{ $roles->links() }}
             </div>
         </div>
     </div>
@@ -172,7 +172,7 @@
         function confirmDelete(userId) {
             const modal = document.getElementById('delete_modal');
             const form = document.getElementById('delete-form');
-            form.action = `/user/delete/${userId}`;
+            form.action = `/role/delete/${userId}`;
             modal.showModal();
         }
 

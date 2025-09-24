@@ -20,7 +20,7 @@
                             d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-5.5-2.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10 12a5.99 5.99 0 0 0-4.793 2.39A6.483 6.483 0 0 0 10 16.5a6.483 6.483 0 0 0 4.793-2.11A5.99 5.99 0 0 0 10 12Z"
                             clip-rule="evenodd" />
                     </svg>
-                    User Management
+                    Role Management
                 </a>
             </li>
             <li>
@@ -31,86 +31,65 @@
                         <path
                             d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
                     </svg>
-                    Add User
+
+                    Edit Role
                 </span>
             </li>
         </ul>
     </div>
     <div class="w-full max-w-7xl px-6 py-4">
-        <h2 class="text-2xl font-bold mb-6">Create User</h2>
-        <p class="text-gray-500 dark:text-gray-400 text-sm mb-6">Please fill in the form below to create user</p>
-        <form action="{{ route('user.store') }}" method="POST" class="space-y-4">
+        <h2 class="text-2xl font-bold mb-6">Edit Role</h2>
+        <form action="{{ route('role.update', $role->id) }}" method="POST" class="space-y-4">
             @csrf
-            @method('POST')
+            @method('PUT')
 
             <!-- Name -->
             <div class="form-control">
                 <label class="label">
                     <span class="label-text">Name</span>
                 </label>
-                <input type="text" name="name" value="{{ old('name') }}" class="input input-bordered w-full"
-                    required />
+                <input type="text" name="name" value="{{ old('name', $role->name) }}"
+                    class="input input-bordered w-full" required />
                 @error('name')
                     <span class="text-error text-sm">{{ $message }}</span>
                 @enderror
             </div>
 
-            <!-- Email -->
-            <div class="form-control">
+            <!-- Permissions -->
+            <div class="space-y-3">
                 <label class="label">
-                    <span class="label-text">Email</span>
+                    <span class="label-text">Permission</span>
                 </label>
-                <input type="email" name="email" value="{{ old('email') }}" class="input input-bordered w-full"
-                    required />
-                @error('email')
-                    <span class="text-error text-sm">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <!-- Password -->
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Password</span>
-                </label>
-                <input type="password" name="password" value="{{ old('password') }}" class="input input-bordered w-full"
-                    required />
-                @error('password')
-                    <span class="text-error text-sm">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <!-- Edit Password -->
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Confirm Password</span>
-                </label>
-                <input type="password" name="password_confirmation" value="{{ old('password_confirmation') }}"
-                    class="input input-bordered w-full" required />
-                @error('password_confirmation')
-                    <span class="text-error text-sm">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <!-- Role -->
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Role</span>
-                </label>
-                <select name="roles_id" class="select select-bordered w-full">
-                    <option disabled>Pilih role</option>
-                    @foreach ($roles as $role)
-                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                @if (isset($permissions) && $permissions->count() > 0)
+                    @foreach ($permissions as $group => $groupPermissions)
+                        <div class="mb-3">
+                            <h6 class="text-gray-500 dark:text-gray-400">{{ $group }}</h6>
+                            <div class="flex flex-wrap gap-3">
+                                @foreach ($groupPermissions as $permission)
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" value="{{ $permission->id }}"
+                                            id="perm_{{ $permission->id }}" name="permissions[]"
+                                            {{ $role->permissions->contains($permission->id) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="perm_{{ $permission->id }}">
+                                            {{ explode('_', $permission->name)[0] }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
                     @endforeach
-                </select>
-                @error('roles_id')
+                @else
+                    <p class="text-center text-gray-500">No Permission Found</p>
+                @endif
+                @error('permissions')
                     <span class="text-error text-sm">{{ $message }}</span>
                 @enderror
             </div>
 
             <!-- Action Buttons -->
             <div class="flex justify-end gap-3 mt-6">
-                <a href="{{ route('user.index') }}" class="btn btn-ghost">Cancel</a>
-                <button type="submit" class="btn btn-primary">Create</button>
+                <a href="{{ route('role.index') }}" class="btn btn-ghost">Cancel</a>
+                <button type="submit" class="btn btn-primary">Update</button>
             </div>
         </form>
     </div>
