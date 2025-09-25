@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'User Management')
+@section('title', 'Jenis Management')
 
 @section('content')
     {{-- Flash Message - Improved Version --}}
@@ -41,7 +41,7 @@
 
     {{-- Main Content --}}
     <div class="w-full max-w-7xl mx-auto">
-        <h1 class="text-2xl font-bold mb-4">Role Management</h1>
+        <h1 class="text-2xl font-bold mb-4">Department Management</h1>
         <div class="mb-4 flex justify-between items-center">
             <label class="input input-bordered flex items-center gap-2 w-1/3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-70" fill="none" viewBox="0 0 24 24"
@@ -49,10 +49,10 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="m21 21-5.2-5.2m0 0A7.5 7.5 0 1 0 5.2 5.2a7.5 7.5 0 0 0 10.6 10.6z" />
                 </svg>
-                <input type="text" placeholder="Search role..." class="grow bg-transparent focus:outline-none" />
+                <input type="text" placeholder="Search departments..." class="grow bg-transparent focus:outline-none" />
             </label>
 
-            <a href="{{ route('role.create') }}" class="btn btn-outline">Add New Role</a>
+            <a href="{{ route('departments.create') }}" class="btn btn-outline">Add New Department</a>
         </div>
 
         <div class="overflow-x-auto">
@@ -65,52 +65,40 @@
                             </label>
                         </th>
                         <th>Name</th>
-                        <th>Permission</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if ($roles->isEmpty())
+                    @if ($departments->isNotEmpty())
+                        @foreach ($departments as $department)
+                            <tr>
+                                <th>
+                                    <label>
+                                        <input type="checkbox" class="checkbox" />
+                                    </label>
+                                </th>
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <div class="font-bold">{{ $department->name }}</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="{{ route('departments.edit', $department->id) }}"
+                                        class="btn btn-primary btn-xs">Edit</a>
+                                    <button onclick="confirmDelete({{ $department->id }})"
+                                        class="btn btn-error btn-xs">Delete</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
                         <tr>
-                            <td colspan="5">No roles found.</td>
+                            <td colspan="5">No department found.</td>
                         </tr>
                     @endif
-                    @foreach ($roles as $role)
-                        <tr>
-                            <th>
-                                <label>
-                                    <input type="checkbox" class="checkbox" />
-                                </label>
-                            </th>
-                            <td>
-                                <div class="flex items-center gap-3">
-                                    <div class="font-bold">{{ $role->name }}</div>
-                                </div>
-                            </td>
-                            <td>
-                                @if ($role->permissions->isNotEmpty())
-                                    <div class="flex flex-wrap gap-2">
-                                        @foreach ($role->permissions as $permission)
-                                            <div class="badge text-secondary badge-soft">
-                                                {{ $permission->name }}
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @else
-                                    <span class="text-gray-500 text-sm italic">No permissions</span>
-                                @endif
-                            </td>
-                            <td>
-                                <a href="{{ route('role.edit', $role->id) }}" class="btn btn-primary btn-xs">Edit</a>
-                                <button onclick="confirmDelete({{ $role->id }})"
-                                    class="btn btn-error btn-xs">Delete</button>
-                            </td>
-                        </tr>
-                    @endforeach
                 </tbody>
             </table>
             <div class="mt-4">
-                {{ $roles->links() }}
+                {{ $departments->links() }}
             </div>
         </div>
     </div>
@@ -145,7 +133,7 @@
                     // Auto hide after 5 seconds
                     setTimeout(() => {
                         hideFlashMessage(flash);
-                    }, 5000);
+                    }, 2000);
                 }
             });
         }
@@ -172,7 +160,7 @@
         function confirmDelete(userId) {
             const modal = document.getElementById('delete_modal');
             const form = document.getElementById('delete-form');
-            form.action = `/role/delete/${userId}`;
+            form.action = "{{ route('departments.destroy', ':id') }}".replace(':id', userId);
             modal.showModal();
         }
 

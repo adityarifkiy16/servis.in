@@ -12,7 +12,8 @@ class DepartementController extends Controller
      */
     public function index()
     {
-        //
+        $arr['departments'] = Departement::orderBy('name', 'asc')->paginate(5);
+        return view('department.index', $arr);
     }
 
     /**
@@ -20,7 +21,7 @@ class DepartementController extends Controller
      */
     public function create()
     {
-        //
+        return view('department.create');
     }
 
     /**
@@ -28,7 +29,11 @@ class DepartementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+        Departement::create($data);
+        return redirect()->route('departments.index')->with('success', 'Departement created successfully.');
     }
 
     /**
@@ -42,24 +47,29 @@ class DepartementController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Departement $departement)
+    public function edit(Departement $department)
     {
-        //
+        return view('department.edit', compact('department'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Departement $departement)
+    public function update(Request $request, Departement $department)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+        $department->update($data);
+        return redirect()->route('departments.index')->with('success', 'Departement updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Departement $departement)
+    public function destroy(Departement $department)
     {
-        //
+        $department->delete();
+        return redirect()->route('departments.index')->with('success', 'Departement deleted successfully.');
     }
 }

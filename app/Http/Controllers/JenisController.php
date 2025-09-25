@@ -12,7 +12,8 @@ class JenisController extends Controller
      */
     public function index()
     {
-        //
+        $arr['jenises'] = Jenis::paginate(5);
+        return view('jenis.index', $arr);
     }
 
     /**
@@ -20,7 +21,7 @@ class JenisController extends Controller
      */
     public function create()
     {
-        //
+        return view('jenis.create');
     }
 
     /**
@@ -28,7 +29,11 @@ class JenisController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+        Jenis::create($data);
+        return redirect()->route('jenis.index')->with('success', 'Jenis created successfully.');
     }
 
     /**
@@ -42,24 +47,29 @@ class JenisController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Jenis $jenis)
+    public function edit(Jenis $jenise)
     {
-        //
+        return view('jenis.edit', compact('jenise'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Jenis $jenis)
+    public function update(Request $request, Jenis $jenise)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+        $jenise->update($data);
+        return redirect()->route('jenises.index')->with('success', 'Jenis updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Jenis $jenis)
+    public function destroy(Jenis $jenise)
     {
-        //
+        $jenise->delete();
+        return redirect()->route('jenises.index')->with('success', 'Jenis deleted successfully.');
     }
 }

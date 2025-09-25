@@ -57,5 +57,9 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/delete/{permission}', [App\Http\Controllers\PermissionController::class, 'destroy'])->name('permission.delete');
     });
 
+    Route::resource('jenises', App\Http\Controllers\JenisController::class);
+    Route::resource('departments', App\Http\Controllers\DepartementController::class);
+    Route::resource('products', App\Http\Controllers\ProductController::class);
+
     Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 });
