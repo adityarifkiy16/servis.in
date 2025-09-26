@@ -44,24 +44,26 @@ class UserController extends Controller
     public function edit($id)
     {
         $arr['user'] = \App\Models\User::findOrFail($id);
+        $arr['roles'] = \App\Models\Role::all();
         return view('user.edit', $arr);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
+        // dd($request->all());
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
+            'roles_id' => 'required|exists:roles,id',
         ]);
 
-        $user = \App\Models\User::findOrFail($id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        if ($request->password) {
-            $user->password = bcrypt($request->password);
-        }
-        $user->save();
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password ? bcrypt($request->password) : $user->password,
+            'role_id' => $request->roles_id
+        ]);
 
         return redirect()->route('user.index')->with('success', 'User updated successfully.');
     }

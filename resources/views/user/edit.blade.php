@@ -73,15 +73,18 @@
                 <label class="label">
                     <span class="label-text">Role</span>
                 </label>
-                <select name="role" class="select select-bordered w-full">
+                <select name="roles_id" class="select select-bordered w-full">
                     <option disabled>Pilih role</option>
-                    <option value="admin" {{ old('role', $user->role) === 'admin' ? 'selected' : '' }}>Admin</option>
-                    <option value="user" {{ old('role', $user->role) === 'user' ? 'selected' : '' }}>User</option>
+                    @foreach ($roles as $role)
+                        <option value="{{ $role->id }}" {{ $user->role_id == $role->id ? 'selected' : '' }}>
+                            {{ $role->name }}</option>
+                    @endforeach
                 </select>
-                @error('role')
+                @error('roles_id')
                     <span class="text-error text-sm">{{ $message }}</span>
                 @enderror
             </div>
+
 
             <!-- Action Buttons -->
             <div class="flex justify-end gap-3 mt-6">
