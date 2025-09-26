@@ -65,6 +65,7 @@
                             </label>
                         </th>
                         <th>Name</th>
+                        <th>Serial Number</th>
                         <th>Jenis</th>
                         <th>Departement</th>
                         <th>Action</th>
@@ -82,6 +83,11 @@
                                 <td>
                                     <div class="flex items-center gap-3">
                                         <div class="font-bold">{{ $product->name }}</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <div class="font-bold">{{ $product->serial_number ?? '-' }}</div>
                                     </div>
                                 </td>
                                 <td>

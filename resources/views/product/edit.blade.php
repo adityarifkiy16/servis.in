@@ -56,6 +56,18 @@
                 @enderror
             </div>
 
+            <!-- Serial -->
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">SN / No. Plat</span>
+                </label>
+                <input type="text" name="serial_number" value="{{ old('serial_number', $product->serial_number) }}"
+                    class="input input-bordered w-full" required placeholder="Input Here..." />
+                @error('serial_number')
+                    <span class="text-error text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
             <!-- Jenis -->
             <div class="form-control">
                 <label class="label">

@@ -35,6 +35,7 @@ class ProductController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
+            'serial_number' => 'required|string|max:255|unique:products',
             'jenis_id' => 'required|exists:jenis,id',
             'departement_id' => 'required|exists:departements,id',
         ]);
@@ -68,6 +69,7 @@ class ProductController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
+            'serial_number' => 'required|string|max:255|unique:products,serial_number,' . $product->id . ',id',
             'jenis_id' => 'required|exists:jenis,id',
             'departement_id' => 'required|exists:departements,id',
         ]);

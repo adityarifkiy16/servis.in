@@ -14,6 +14,7 @@ class Product extends Model
         'name',
         'jenis_id',
         'departement_id',
+        'serial_number',
     ];
 
     public function jenis()
