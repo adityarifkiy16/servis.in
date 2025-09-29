@@ -71,6 +71,11 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/delete/{service}', [App\Http\Controllers\ServiceController::class, 'destroy'])->name('service.delete');
     });
 
+    Route::prefix('reports')->group(function () {
+        Route::get('/', [App\Http\Controllers\ReportController::class, 'index'])->name('report.index');
+        Route::get('/download', [App\Http\Controllers\ReportController::class, 'download'])->name('report.download');
+    });
+
 
     Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 });
