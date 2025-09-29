@@ -11,4 +11,9 @@ class Departement extends Model
     use HasFactory, SoftDeletes;
     protected $table = 'departements';
     protected $guarded = ['id'];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

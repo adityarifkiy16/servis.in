@@ -103,7 +103,7 @@
                                 </td>
                                 <td>
                                     <div class="flex items-center gap-3">
-                                        <div class="font-bold">{{ $product->departement->name }}</div>
+                                        <div class="font-bold">{{ $product->departement?->name }}</div>
                                     </div>
                                 </td>
                                 <td>

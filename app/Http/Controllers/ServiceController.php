@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Service;
+use App\Models\Departement;
 use App\Models\ServiceType;
 use Illuminate\Http\Request;
 
@@ -12,11 +13,46 @@ class ServiceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $arr['services'] = Service::with('serviceType', 'product')->orderBy('created_at', 'desc')->paginate(5);
+        // dd($request->all());
+        $query = Service::with(['serviceType', 'product']);
+
+        // Data dropdown
+        $arr['departments']  = Departement::all();
+        $arr['servicetypes'] = ServiceType::all();
+
+        // Filter by Departemen (relasi lewat product)
+        $query->when($request->department_id, function ($q) use ($request) {
+            $q->whereHas('product', function ($subQ) use ($request) {
+                $subQ->where('departement_id', $request->department_id);
+            });
+        });
+
+        // Filter by Status
+        $query->when(isset($request->status), function ($q) use ($request) {
+            $q->where('status', $request->status);
+        });
+
+        // Filter by Layanan / Service Type
+        $query->when($request->service_type_id, function ($q) use ($request) {
+            $q->where('service_type_id', $request->service_type_id);
+        });
+
+        // Filter by Tanggal
+        $query->when($request->date, function ($q) use ($request) {
+            $q->whereDate('date', $request->date);
+        });
+
+        // Ambil data
+        $arr['services'] = $query->latest()->paginate(5);
+
+        // Tambahin supaya query string (filter) tetap ke-bawa ke pagination
+        $arr['services']->appends($request->all());
+
         return view('service.index', $arr);
     }
+
 
     /**
      * Show the form for creating a new resource.

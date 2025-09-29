@@ -42,17 +42,56 @@
     {{-- Main Content --}}
     <div class="w-full max-w-7xl mx-auto">
         <h1 class="text-2xl font-bold mb-4">Service Management</h1>
-        <div class="mb-4 flex justify-between items-center">
+        <div class="mb-4 flex justify-between items-center w-full gap-2">
             <label class="input input-bordered flex items-center gap-2 w-1/3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-70" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="m21 21-5.2-5.2m0 0A7.5 7.5 0 1 0 5.2 5.2a7.5 7.5 0 0 0 10.6 10.6z" />
                 </svg>
-                <input type="text" placeholder="Search products..." class="grow bg-transparent focus:outline-none" />
+                <input type="text" placeholder="Search products..." class="bg-transparent focus:outline-none" />
             </label>
 
-            <a href="{{ route('service.create') }}" class="btn btn-outline">Add New Service</a>
+            <div class="flex gap-2">
+                <a href="{{ route('service.create') }}" class="btn btn-outline">Add New Service</a>
+                <form action="{{ route('service.index') }}" method="GET" class="flex items-center gap-2">
+                    <!-- Filter Departemen -->
+                    <select name="department_id" class="select select-bordered">
+                        <option value="">-- Semua Departemen --</option>
+                        @foreach ($departments as $dept)
+                            <option value="{{ $dept->id }}"
+                                {{ request('department_id') == $dept->id ? 'selected' : '' }}>
+                                {{ $dept->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <!-- Filter Status -->
+                    <select name="status" class="select select-bordered">
+                        <option value="">-- Semua Status --</option>
+                        <option value="0" {{ request('status') == 0 ? 'selected' : '' }}>Pending</option>
+                        <option value="1" {{ request('status') == 1 ? 'selected' : '' }}>Proses</option>
+                        <option value="2" {{ request('status') == 2 ? 'selected' : '' }}>Selesai</option>
+                    </select>
+
+                    <!-- Filter Layanan Servis -->
+                    <select name="service_type_id" class="select select-bordered">
+                        <option value="">-- Semua Layanan --</option>
+                        @foreach ($servicetypes as $type)
+                            <option value="{{ $type->id }}"
+                                {{ request('service_type_id') == $type->id ? 'selected' : '' }}>
+                                {{ $type->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <!-- Filter Tanggal -->
+                    <input type="date" name="date" class="input input-bordered" value="{{ request('date') }}">
+
+                    <button type="submit" class="btn btn-md">Filter</button>
+                </form>
+
+            </div>
         </div>
 
         <div class="overflow-x-auto">

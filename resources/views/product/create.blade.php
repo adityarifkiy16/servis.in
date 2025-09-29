@@ -87,8 +87,7 @@
                 <label class="label">
                     <span class="label-text">Usage</span>
                 </label>
-                <input type="number" name="usage" value="{{ old('usage') }}" class="input input-bordered w-full"
-                    required />
+                <input type="number" name="usage" value="{{ old('usage') }}" class="input input-bordered w-full" />
                 @error('usage')
                     <span class="text-error text-sm">{{ $message }}</span>
                 @enderror
@@ -99,8 +98,8 @@
                 <label class="label">
                     <span class="label-text">Satuan</span>
                 </label>
-                <input type="text" name="usage_unit" value="{{ old('usage_unit') }}" class="input input-bordered w-full"
-                    required />
+                <input type="text" name="usage_unit" value="{{ old('usage_unit') }}"
+                    class="input input-bordered w-full" />
                 @error('usage_unit')
                     <span class="text-error text-sm">{{ $message }}</span>
                 @enderror
