@@ -20,7 +20,7 @@
                             d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-5.5-2.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10 12a5.99 5.99 0 0 0-4.793 2.39A6.483 6.483 0 0 0 10 16.5a6.483 6.483 0 0 0 4.793-2.11A5.99 5.99 0 0 0 10 12Z"
                             clip-rule="evenodd" />
                     </svg>
-                    Product Management
+                    Service Type Management
                 </a>
             </li>
             <li>
@@ -32,15 +32,15 @@
                             d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
                     </svg>
 
-                    Edit Product
+                    Edit Service Type
                 </span>
             </li>
         </ul>
     </div>
     <div class="w-full max-w-7xl px-6 py-4">
-        <h2 class="text-2xl font-bold mb-6">Edit Product</h2>
+        <h2 class="text-2xl font-bold mb-6">Edit Service Type</h2>
         <p class="text-gray-500 dark:text-gray-400 text-sm mb-6">Please fill in the form below to edit</p>
-        <form action="{{ route('products.update', $product->id) }}" method="POST" class="space-y-4">
+        <form action="{{ route('servicetype.update', $servicetype->id) }}" method="POST" class="space-y-4">
             @csrf
             @method('PUT')
 
@@ -49,21 +49,9 @@
                 <label class="label">
                     <span class="label-text">Name</span>
                 </label>
-                <input type="text" name="name" value="{{ old('name', $product->name) }}"
+                <input type="text" name="name" value="{{ old('name', $servicetype->name) }}"
                     class="input input-bordered w-full" required />
                 @error('name')
-                    <span class="text-error text-sm">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <!-- Serial -->
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">SN / No. Plat</span>
-                </label>
-                <input type="text" name="serial_number" value="{{ old('serial_number', $product->serial_number) }}"
-                    class="input input-bordered w-full" required placeholder="Input Here..." />
-                @error('serial_number')
                     <span class="text-error text-sm">{{ $message }}</span>
                 @enderror
             </div>
@@ -76,7 +64,7 @@
                 <select name="jenis_id" class="select select-bordered w-full">
                     <option disabled>Pilih Jenis</option>
                     @foreach ($jenises as $jenis)
-                        <option value="{{ $jenis->id }}" {{ $product->jenis_id == $jenis->id ? 'selected' : '' }}>
+                        <option value="{{ $jenis->id }}" {{ $servicetype->jenis_id == $jenis->id ? 'selected' : '' }}>
                             {{ $jenis->name }}</option>
                     @endforeach
                 </select>
@@ -85,53 +73,33 @@
                 @enderror
             </div>
 
-
-            <!-- Serial -->
+            <!-- Interval Month -->
             <div class="form-control">
                 <label class="label">
-                    <span class="label-text">Usage</span>
+                    <span class="label-text">Interval Month</span>
                 </label>
-                <input type="number" name="usage" value="{{ old('usage', $product->usage) }}"
-                    class="input input-bordered w-full" required placeholder="Input Here..." />
-                @error('usage')
+                <input type="number" name="interval_month"
+                    value="{{ old('interval_month', $servicetype->interval_month) }}" class="input input-bordered w-full" />
+                @error('interval_month')
                     <span class="text-error text-sm">{{ $message }}</span>
                 @enderror
             </div>
 
-
-            <!-- Serial -->
+            <!-- Interval Usage -->
             <div class="form-control">
                 <label class="label">
-                    <span class="label-text">Satuan</span>
+                    <span class="label-text">Interval Usage</span>
                 </label>
-                <input type="text" name="usage_unit" value="{{ old('usage_unit', $product->usage_unit) }}"
-                    class="input input-bordered w-full" required placeholder="Input Here..." />
-                @error('usage_unit')
-                    <span class="text-error text-sm">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <!-- Department -->
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Departement</span>
-                </label>
-                <select name="departement_id" class="select select-bordered w-full">
-                    <option disabled>Pilih Departement</option>
-                    @foreach ($departements as $departement)
-                        <option value="{{ $departement->id }}"
-                            {{ $product->departement_id == $departement->id ? 'selected' : '' }}>{{ $departement->name }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('departement_id')
+                <input type="number" name="interval_usage"
+                    value="{{ old('interval_usage', $servicetype->interval_usage) }}" class="input input-bordered w-full" />
+                @error('interval_usage')
                     <span class="text-error text-sm">{{ $message }}</span>
                 @enderror
             </div>
 
             <!-- Action Buttons -->
             <div class="flex justify-end gap-3 mt-6">
-                <a href="{{ route('products.index') }}" class="btn btn-ghost">Cancel</a>
+                <a href="{{ route('departments.index') }}" class="btn btn-ghost">Cancel</a>
                 <button type="submit" class="btn btn-primary">Update</button>
             </div>
         </form>

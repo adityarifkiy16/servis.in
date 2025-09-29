@@ -33,7 +33,7 @@ class JenisController extends Controller
             'name' => 'required|string|max:255',
         ]);
         Jenis::create($data);
-        return redirect()->route('jenis.index')->with('success', 'Jenis created successfully.');
+        return redirect()->route('jenises.index')->with('success', 'Jenis created successfully.');
     }
 
     /**

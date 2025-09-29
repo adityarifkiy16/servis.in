@@ -38,7 +38,7 @@
     </div>
     <div class="w-full max-w-7xl px-6 py-4">
         <h2 class="text-2xl font-bold mb-6">Create Jenis</h2>
-        <form action="{{ route('jenis.store') }}" method="POST" class="space-y-4">
+        <form action="{{ route('jenises.store') }}" method="POST" class="space-y-4">
             @csrf
             @method('POST')
 
@@ -56,7 +56,7 @@
 
             <!-- Action Buttons -->
             <div class="flex justify-end gap-3 mt-6">
-                <a href="{{ route('permission.index') }}" class="btn btn-ghost">Cancel</a>
+                <a href="{{ route('jenises.index') }}" class="btn btn-ghost">Cancel</a>
                 <button type="submit" class="btn btn-primary">Create</button>
             </div>
         </form>

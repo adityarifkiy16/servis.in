@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Jenis Management')
+@section('title', 'Product Management')
 
 @section('content')
     {{-- Flash Message - Improved Version --}}
@@ -41,7 +41,7 @@
 
     {{-- Main Content --}}
     <div class="w-full max-w-7xl mx-auto">
-        <h1 class="text-2xl font-bold mb-4">Department Management</h1>
+        <h1 class="text-2xl font-bold mb-4">Service Type Management</h1>
         <div class="mb-4 flex justify-between items-center">
             <label class="input input-bordered flex items-center gap-2 w-1/3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-70" fill="none" viewBox="0 0 24 24"
@@ -49,10 +49,10 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="m21 21-5.2-5.2m0 0A7.5 7.5 0 1 0 5.2 5.2a7.5 7.5 0 0 0 10.6 10.6z" />
                 </svg>
-                <input type="text" placeholder="Search departments..." class="grow bg-transparent focus:outline-none" />
+                <input type="text" placeholder="Search products..." class="grow bg-transparent focus:outline-none" />
             </label>
 
-            <a href="{{ route('departments.create') }}" class="btn btn-outline">Add New Department</a>
+            <a href="{{ route('servicetype.create') }}" class="btn btn-outline">Add New Service Type</a>
         </div>
 
         <div class="overflow-x-auto">
@@ -65,12 +65,15 @@
                             </label>
                         </th>
                         <th>Name</th>
+                        <th>Jenis</th>
+                        <th>Interval Month</th>
+                        <th>Interval Usage</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if ($departments->isNotEmpty())
-                        @foreach ($departments as $department)
+                    @if ($serviceTypes->isNotEmpty())
+                        @foreach ($serviceTypes as $data)
                             <tr>
                                 <th>
                                     <label>
@@ -79,12 +82,26 @@
                                 </th>
                                 <td>
                                     <div class="flex items-center gap-3">
-                                        <div class="font-bold">{{ $department->name }}</div>
+                                        <div class="font-bold">{{ $data->name }}</div>
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="{{ route('departments.edit', $department->id) }}"
-                                        class="btn btn-primary btn-sm">
+                                    <div class="flex items-center gap-3">
+                                        <div class="font-bold">{{ $data->jenis->name }}</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <div class="font-bold">{{ $data->interval_month ?? '-' }}</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <div class="font-bold">{{ $data->interval_usage ?? '-' }}</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="{{ route('servicetype.edit', $data->id) }}" class="btn btn-primary btn-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                             class="size-5">
                                             <path
@@ -93,7 +110,7 @@
                                                 d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
                                         </svg>
                                     </a>
-                                    <button onclick="confirmDelete({{ $department->id }})" class="btn btn-error btn-sm">
+                                    <button onclick="confirmDelete({{ $data->id }})" class="btn btn-error btn-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                             class="size-5">
                                             <path fill-rule="evenodd"
@@ -106,13 +123,13 @@
                         @endforeach
                     @else
                         <tr>
-                            <td colspan="5">No department found.</td>
+                            <td colspan="5">No Service Type found.</td>
                         </tr>
                     @endif
                 </tbody>
             </table>
             <div class="mt-4">
-                {{ $departments->links() }}
+                {{ $serviceTypes->links() }}
             </div>
         </div>
     </div>
@@ -174,7 +191,7 @@
         function confirmDelete(userId) {
             const modal = document.getElementById('delete_modal');
             const form = document.getElementById('delete-form');
-            form.action = "{{ route('departments.destroy', ':id') }}".replace(':id', userId);
+            form.action = "{{ route('servicetype.destroy', ':id') }}".replace(':id', userId);
             modal.showModal();
         }
 

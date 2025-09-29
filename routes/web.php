@@ -60,6 +60,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('jenises', App\Http\Controllers\JenisController::class);
     Route::resource('departments', App\Http\Controllers\DepartementController::class);
     Route::resource('products', App\Http\Controllers\ProductController::class);
+    Route::resource('servicetype', App\Http\Controllers\ServiceTypeController::class);
 
     Route::prefix('services')->group(function () {
         Route::get('/', [App\Http\Controllers\ServiceController::class, 'index'])->name('service.index');
@@ -69,6 +70,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/update/{service}', [App\Http\Controllers\ServiceController::class, 'update'])->name('service.update');
         Route::delete('/delete/{service}', [App\Http\Controllers\ServiceController::class, 'destroy'])->name('service.delete');
     });
+
 
     Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 });

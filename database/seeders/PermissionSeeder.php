@@ -13,13 +13,16 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
+        Permission::truncate();
         $permissions = [
             ['name' => 'management_users'], // Admin
             ['name' => 'management_roles'], // Admin
-            ['name' => 'report_service'], // Admin, PIC, Teknisi
-            ['name' => 'request_service'], // Admin, PIC, Teknisi
-            ['name' => 'management_product'], // Admin, PIC
-            ['name' => 'management_service'], // Admin, Teknisi
+            ['name' => 'management_service'], // Admin, PIC, Teknisi
+            ['name' => 'management_product'],
+            ['name' => 'management_departement'],
+            ['name' => 'update_status'],
+            ['name' => 'download_report'],
+
         ];
 
         foreach ($permissions as $permission) {

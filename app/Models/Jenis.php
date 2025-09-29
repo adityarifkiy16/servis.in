@@ -11,4 +11,13 @@ class Jenis extends Model
     use HasFactory, SoftDeletes;
     protected $table = 'jenis';
     protected $guarded = ['id'];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'jenis_id');
+    }
+    public function servicetypes()
+    {
+        return $this->hasMany(Servicetype::class, 'jenis_id');
+    }
 }

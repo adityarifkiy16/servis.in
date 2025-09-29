@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Service;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
@@ -15,6 +16,8 @@ class Product extends Model
         'jenis_id',
         'departement_id',
         'serial_number',
+        'usage',
+        'usage_unit',
     ];
 
     public function jenis()
@@ -25,5 +28,10 @@ class Product extends Model
     public function departement()
     {
         return $this->belongsTo(Departement::class);
+    }
+
+    public function services()
+    {
+        return $this->hasMany(Service::class);
     }
 }

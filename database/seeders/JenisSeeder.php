@@ -13,7 +13,16 @@ class JenisSeeder extends Seeder
      */
     public function run(): void
     {
-        $datas = [['name' => 'Elektronik'], ['name' => 'Otomotif']];
+        Jenis::truncate();
+        $datas = [
+            ['name' => 'Komputer'],
+            ['name' => 'Kendaraan Kecil'],
+            ['name' => 'Elektronik'],
+            ['name' => 'AC'],
+            ['name' => 'Kendaraan Besar'],
+            ['name' => 'Mesin Produksi'],
+            ['name' => 'Lainnya']
+        ];
         foreach ($datas as $data) {
             Jenis::create($data);
         }
