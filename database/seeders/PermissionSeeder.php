@@ -74,6 +74,6 @@ class PermissionSeeder extends Seeder
         );
 
         // Assign role admin ke user
-        $user->roles()->sync([$admin->id]);
+        $user->role()->sync([$admin->id]);
     }
 }
