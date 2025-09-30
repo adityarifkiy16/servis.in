@@ -52,6 +52,10 @@ class User extends Authenticatable
 
     public function hasPermission($permission)
     {
+        // Kalau belum ada role, otomatis false
+        if (!$this->role) {
+            return false;
+        }
         return $this->role->permissions->pluck('name')->contains($permission);
     }
 }
