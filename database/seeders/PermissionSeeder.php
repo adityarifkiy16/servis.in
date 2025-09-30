@@ -70,10 +70,10 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'Super Admin',
                 'password' => bcrypt('password'), // ganti sesuai kebutuhan
-            ]
+            ],
+            ['role_id' => $admin->id]
         );
 
         // Assign role admin ke user
-        $user->role()->sync([$admin->id]);
     }
 }
