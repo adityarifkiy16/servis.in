@@ -19,6 +19,8 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('home');
+
     Route::prefix('user')->group(function () {
         Route::get('/', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');
         Route::get('/create', [App\Http\Controllers\UserController::class, 'create'])->name('user.create');
