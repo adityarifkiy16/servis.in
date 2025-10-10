@@ -40,24 +40,32 @@
     @endif
 
     {{-- Main Content --}}
-    <div class="w-full max-w-7xl mx-auto">
+    <div class="w-full max-w-7xl mx-auto card bg-base-100 shadow-md rounded-2xl border border-base-200 my-6 p-6">
         <h1 class="text-2xl font-bold mb-4">Service Management</h1>
         <div class="mb-4 flex justify-between items-center w-full gap-2">
-            <label class="input input-bordered flex items-center gap-2 w-1/3">
+            <label class="input input-bordered flex items-center gap-2 w-1/2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-70" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="m21 21-5.2-5.2m0 0A7.5 7.5 0 1 0 5.2 5.2a7.5 7.5 0 0 0 10.6 10.6z" />
                 </svg>
-                <input type="text" placeholder="Search products..." class="bg-transparent focus:outline-none" />
+                <input type="text" placeholder="Search products..." class="bg-transparent focus:outline-none"
+                    id="search" />
             </label>
 
-            <div class="flex gap-2">
-                <a href="{{ route('service.create') }}" class="btn btn-outline">Add New Service</a>
+            <div class="flex gap-2 w-full">
+                <a href="{{ route('service.create') }}" class="btn btn-outline">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+
+                    Add New Service</a>
                 <form action="{{ route('service.index') }}" method="GET" class="flex items-center gap-2">
                     <!-- Filter Departemen -->
                     <select name="department_id" class="select select-bordered">
-                        <option value="">-- Semua Departemen --</option>
+                        <option value="">Departemen</option>
                         @foreach ($departments as $dept)
                             <option value="{{ $dept->id }}"
                                 {{ request('department_id') == $dept->id ? 'selected' : '' }}>
@@ -68,15 +76,15 @@
 
                     <!-- Filter Status -->
                     <select name="status" class="select select-bordered">
-                        <option value="">-- Semua Status --</option>
-                        <option value="0" {{ request('status') == 0 ? 'selected' : '' }}>Pending</option>
+                        <option value=""> Status </option>
+                        <option value="0" {{ request('status') !== null ? 'selected' : '' }}>Pending</option>
                         <option value="1" {{ request('status') == 1 ? 'selected' : '' }}>Proses</option>
                         <option value="2" {{ request('status') == 2 ? 'selected' : '' }}>Selesai</option>
                     </select>
 
                     <!-- Filter Layanan Servis -->
                     <select name="service_type_id" class="select select-bordered">
-                        <option value="">-- Semua Layanan --</option>
+                        <option value="">Layanan</option>
                         @foreach ($servicetypes as $type)
                             <option value="{{ $type->id }}"
                                 {{ request('service_type_id') == $type->id ? 'selected' : '' }}>
@@ -88,7 +96,13 @@
                     <!-- Filter Tanggal -->
                     <input type="date" name="date" class="input input-bordered" value="{{ request('date') }}">
 
-                    <button type="submit" class="btn btn-md">Filter</button>
+                    <button type="submit" class="btn btn-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
+                        </svg>
+                    </button>
                 </form>
 
             </div>
@@ -98,27 +112,19 @@
             <table class="table w-full">
                 <thead>
                     <tr>
-                        <th>
-                            <label>
-                                <input type="checkbox" class="checkbox" />
-                            </label>
-                        </th>
+                        <th>No</th>
                         <th>Produk</th>
                         <th>Layanan Servis</th>
                         <th>Tanggal Servis</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        <th class="text-right">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if ($services->isNotEmpty())
                         @foreach ($services as $data)
                             <tr>
-                                <th>
-                                    <label>
-                                        <input type="checkbox" class="checkbox" />
-                                    </label>
-                                </th>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>
                                     <div class="flex items-center gap-3">
                                         <div class="font-bold">{{ $data->product->name }}</div>
@@ -153,7 +159,7 @@
                                         @endswitch
                                     </div>
                                 </td>
-                                <td>
+                                <td class="text-right">
                                     <a href="{{ route('service.edit', $data->id) }}" class="btn btn-primary btn-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                             class="size-5">
@@ -208,6 +214,20 @@
 
 @push('scripts')
     <script>
+        const search = document.getElementById('search');
+
+        search.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // mencegah form auto submit (kalau di dalam <form>)
+                const query = search.value.trim();
+                if (query !== '') {
+                    window.location.href = `/services?search=${encodeURIComponent(query)}`;
+                } else {
+                    window.location.href = '/services';
+                }
+            }
+        });
+
         // Flash Message Auto Hide dengan Improved Error Handling
         function autoHideFlashMessage() {
             const flashMessages = document.querySelectorAll('[id^="flash-message"]');
@@ -251,6 +271,11 @@
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             autoHideFlashMessage();
+            const params = new URLSearchParams(window.location.search);
+            const savedSearch = params.get('search');
+            if (savedSearch) {
+                search.value = decodeURIComponent(savedSearch);
+            }
         });
 
         // Optional: Pause auto-hide on hover

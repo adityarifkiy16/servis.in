@@ -40,7 +40,7 @@
     @endif
 
     {{-- Main Content --}}
-    <div class="w-full max-w-7xl mx-auto">
+    <div class="w-full max-w-7xl mx-auto card bg-base-100 shadow-md rounded-2xl border border-base-200 my-6 p-6">
         <h1 class="text-2xl font-bold mb-4">User Management</h1>
         <div class="mb-4 flex justify-between items-center">
             <label class="input input-bordered flex items-center gap-2 w-1/3">
@@ -49,41 +49,40 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="m21 21-5.2-5.2m0 0A7.5 7.5 0 1 0 5.2 5.2a7.5 7.5 0 0 0 10.6 10.6z" />
                 </svg>
-                <input type="text" placeholder="Search users..." class="grow bg-transparent focus:outline-none" />
+                <input type="text" placeholder="Search users..." class="grow bg-transparent focus:outline-none"
+                    id="search" />
             </label>
 
-            <a href="{{ route('user.create') }}" class="btn btn-outline">Add New User</a>
+            <a href="{{ route('user.create') }}" class="btn btn-outline">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+                </svg>
+                Add New User</a>
         </div>
 
         <div class="overflow-x-auto">
-            <table class="table w-full">
+            <table class="table w-full table-zebra">
                 <thead>
                     <tr>
-                        <th>
-                            <label>
-                                <input type="checkbox" class="checkbox" />
-                            </label>
-                        </th>
+                        <th>No</th>
                         <th>Name</th>
                         <th>Role</th>
                         <th>Created At</th>
-                        <th>Action</th>
+                        <th class="text-right">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($users as $user)
                         <tr>
-                            <th>
-                                <label>
-                                    <input type="checkbox" class="checkbox" />
-                                </label>
-                            </th>
+                            <td>{{ $loop->iteration }}</td>
                             <td>
                                 <div class="flex items-center gap-3">
                                     <div class="avatar">
                                         <div class="mask mask-squircle h-12 w-12">
-                                            <img src="https://i.pravatar.cc/150?u={{ $user->id }}"
-                                                alt="Avatar {{ $user->name }}" />
+                                            <img src="https://api.dicebear.com/7.x/micah/svg?seed={{ $user->id }}"
+                                                alt="Avatar {{ $user->name }}" class="w-10 h-10 rounded-full" />
                                         </div>
                                     </div>
                                     <div>
@@ -94,13 +93,13 @@
                             </td>
                             <td>
                                 <span
-                                    class="badge {{ $user->role?->name === 'Admin' ? 'badge-error' : 'badge-primary' }} badge-sm">
+                                    class="badge badge-soft {{ $user->role?->name === 'Super Admin' ? 'badge-warning' : 'badge-info' }} badge-sm">
                                     {{ ucfirst($user->role?->name ?? 'User') }}
                                 </span>
 
                             </td>
                             <td>{{ $user->created_at->format('d M Y') }}</td>
-                            <td>
+                            <td class="text-right">
                                 <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary btn-sm">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                         class="size-5">
@@ -150,6 +149,19 @@
 
 @push('scripts')
     <script>
+        const search = document.getElementById('search');
+
+        search.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // mencegah form auto submit (kalau di dalam <form>)
+                const query = search.value.trim();
+                if (query !== '') {
+                    window.location.href = `/user?search=${encodeURIComponent(query)}`;
+                } else {
+                    window.location.href = '/user';
+                }
+            }
+        })
         // Flash Message Auto Hide dengan Improved Error Handling
         function autoHideFlashMessage() {
             const flashMessages = document.querySelectorAll('[id^="flash-message"]');
@@ -193,6 +205,11 @@
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             autoHideFlashMessage();
+            const params = new URLSearchParams(window.location.search);
+            const savedSearch = params.get('search');
+            if (savedSearch) {
+                search.value = decodeURIComponent(savedSearch);
+            }
         });
 
         // Optional: Pause auto-hide on hover

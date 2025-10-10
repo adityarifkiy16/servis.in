@@ -40,30 +40,23 @@
     @endif
 
     {{-- Main Content --}}
-    <div class="w-full max-w-7xl mx-auto">
-        <h1 class="text-2xl font-bold mb-4">Service Type Management</h1>
+    <div class="w-full max-w-7xl mx-auto card bg-base-100 shadow-md rounded-2xl border border-base-200 my-6 p-6">
+        <h1 class="text-2xl font-bold mb-4">Layanan Servis</h1>
         <div class="mb-4 flex justify-between items-center">
-            <label class="input input-bordered flex items-center gap-2 w-1/3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-70" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor" stroke-width="2">
+            <a href="{{ route('servicetype.create') }}" class="btn btn-outline">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-5">
                     <path stroke-linecap="round" stroke-linejoin="round"
-                        d="m21 21-5.2-5.2m0 0A7.5 7.5 0 1 0 5.2 5.2a7.5 7.5 0 0 0 10.6 10.6z" />
+                        d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
-                <input type="text" placeholder="Search products..." class="grow bg-transparent focus:outline-none" />
-            </label>
-
-            <a href="{{ route('servicetype.create') }}" class="btn btn-outline">Add New Service Type</a>
+                Add Data</a>
         </div>
 
         <div class="overflow-x-auto">
             <table class="table w-full">
                 <thead>
                     <tr>
-                        <th>
-                            <label>
-                                <input type="checkbox" class="checkbox" />
-                            </label>
-                        </th>
+                        <td>No</td>
                         <th>Name</th>
                         <th>Jenis</th>
                         <th>Interval Month</th>
@@ -75,11 +68,7 @@
                     @if ($serviceTypes->isNotEmpty())
                         @foreach ($serviceTypes as $data)
                             <tr>
-                                <th>
-                                    <label>
-                                        <input type="checkbox" class="checkbox" />
-                                    </label>
-                                </th>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>
                                     <div class="flex items-center gap-3">
                                         <div class="font-bold">{{ $data->name }}</div>

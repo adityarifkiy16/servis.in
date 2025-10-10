@@ -7,10 +7,13 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $arr['users'] = \App\Models\User::with('role')->orderBy('name', 'asc')->paginate(10);
-        // dd($arr);
+        $query = User::with(['role']);
+        $query->when(isset($request->search), function ($q) use ($request) {
+            return $q->where('name', 'like', '%' . $request->search . '%');
+        });
+        $arr['users'] = $query->orderBy('name', 'asc')->paginate(10);
         return view('user.index', $arr);
     }
 

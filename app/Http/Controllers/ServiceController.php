@@ -22,6 +22,12 @@ class ServiceController extends Controller
         $arr['departments']  = Departement::all();
         $arr['servicetypes'] = ServiceType::all();
 
+        $query->when(isset($request->search), function ($q) use ($request) {
+            $q->whereHas('product', function ($subQ) use ($request) {
+                $subQ->where('name', 'LIKE', '%' . $request->search . '%');
+            });
+        });
+
         // Filter by Departemen (relasi lewat product)
         $query->when($request->department_id, function ($q) use ($request) {
             $q->whereHas('product', function ($subQ) use ($request) {

@@ -40,18 +40,9 @@
     @endif
 
     {{-- Main Content --}}
-    <div class="w-full max-w-7xl mx-auto">
+    <div class="w-full max-w-7xl mx-auto card bg-base-100 shadow-md rounded-2xl border border-base-200 my-6 p-6">
         <h1 class="text-2xl font-bold mb-4">Role Management</h1>
         <div class="mb-4 flex justify-between items-center">
-            <label class="input input-bordered flex items-center gap-2 w-1/3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-70" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="m21 21-5.2-5.2m0 0A7.5 7.5 0 1 0 5.2 5.2a7.5 7.5 0 0 0 10.6 10.6z" />
-                </svg>
-                <input type="text" placeholder="Search role..." class="grow bg-transparent focus:outline-none" />
-            </label>
-
             <a href="{{ route('role.create') }}" class="btn btn-outline">Add New Role</a>
         </div>
 
@@ -59,14 +50,10 @@
             <table class="table w-full">
                 <thead>
                     <tr>
-                        <th>
-                            <label>
-                                <input type="checkbox" class="checkbox" />
-                            </label>
-                        </th>
+                        <th>No</th>
                         <th>Name</th>
                         <th class="w-1/2">Permission</th>
-                        <th>Action</th>
+                        <th class="text-right">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -77,11 +64,7 @@
                     @endif
                     @foreach ($roles as $role)
                         <tr>
-                            <th>
-                                <label>
-                                    <input type="checkbox" class="checkbox" />
-                                </label>
-                            </th>
+                            <td>{{ $loop->iteration }}</td>
                             <td>
                                 <div class="flex items-center gap-3">
                                     <div class="font-bold">{{ $role->name }}</div>
@@ -100,7 +83,7 @@
                                     <span class="text-gray-500 text-sm italic">No permissions</span>
                                 @endif
                             </td>
-                            <td>
+                            <td class="text-right">
                                 <a href="{{ route('role.edit', $role->id) }}" class="btn btn-primary btn-sm">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                         class="size-5">

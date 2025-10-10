@@ -40,7 +40,7 @@
     @endif
 
     {{-- Main Content --}}
-    <div class="w-full max-w-7xl mx-auto">
+    <div class="w-full max-w-7xl mx-auto card bg-base-100 shadow-md rounded-2xl border border-base-200 my-6 p-6">
         <h1 class="text-2xl font-bold mb-4">Product Management</h1>
         <div class="mb-4 flex justify-between items-center">
             <label class="input input-bordered flex items-center gap-2 w-1/3">
@@ -49,21 +49,18 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="m21 21-5.2-5.2m0 0A7.5 7.5 0 1 0 5.2 5.2a7.5 7.5 0 0 0 10.6 10.6z" />
                 </svg>
-                <input type="text" placeholder="Search products..." class="grow bg-transparent focus:outline-none" />
+                <input type="text" placeholder="Search products..." class="grow bg-transparent focus:outline-none"
+                    id="search" />
             </label>
 
             <a href="{{ route('products.create') }}" class="btn btn-outline">Add New Product</a>
         </div>
 
         <div class="overflow-x-auto">
-            <table class="table w-full">
+            <table class="table table-zebra w-full">
                 <thead>
                     <tr>
-                        <th>
-                            <label>
-                                <input type="checkbox" class="checkbox" />
-                            </label>
-                        </th>
+                        <th>No</th>
                         <th>Name</th>
                         <th>Serial Number</th>
                         <th>Jenis</th>
@@ -76,11 +73,11 @@
                     @if ($products->isNotEmpty())
                         @foreach ($products as $product)
                             <tr>
-                                <th>
-                                    <label>
-                                        <input type="checkbox" class="checkbox" />
-                                    </label>
-                                </th>
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <div class="font-bold">{{ $loop->iteration }}</div>
+                                    </div>
+                                </td>
                                 <td>
                                     <div class="flex items-center gap-3">
                                         <div class="font-bold">{{ $product->name }}</div>
@@ -161,6 +158,19 @@
 
 @push('scripts')
     <script>
+        const search = document.getElementById('search');
+
+        search.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // mencegah form auto submit (kalau di dalam <form>)
+                const query = search.value.trim();
+                if (query !== '') {
+                    window.location.href = `/products?search=${encodeURIComponent(query)}`;
+                } else {
+                    window.location.href = '/products';
+                }
+            }
+        })
         // Flash Message Auto Hide dengan Improved Error Handling
         function autoHideFlashMessage() {
             const flashMessages = document.querySelectorAll('[id^="flash-message"]');
@@ -204,6 +214,11 @@
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             autoHideFlashMessage();
+            const params = new URLSearchParams(window.location.search);
+            const savedSearch = params.get('search');
+            if (savedSearch) {
+                search.value = decodeURIComponent(savedSearch);
+            }
         });
 
         // Optional: Pause auto-hide on hover

@@ -37,7 +37,7 @@
         </ul>
     </div>
 
-    <div class="w-full max-w-4xl mx-auto p-6 rounded-xl shadow-md">
+    <div class="w-full max-w-4xl mx-auto card bg-base-100 shadow-md rounded-2xl border border-base-200 my-6 p-6">
         <h2 class="text-2xl font-bold mb-6">Download Laporan Service</h2>
 
         <form action="{{ route('report.download') }}" method="GET" class="flex flex-col gap-4">
