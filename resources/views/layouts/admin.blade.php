@@ -11,9 +11,9 @@
 </head>
 
 <body>
-    <div class="drawer lg:drawer-open">
+    <div class="drawer lg:drawer-open min-h-screen">
         <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-        <div class="drawer-content flex flex-col">
+        <div class="drawer-content flex flex-col min-h-screen">
             <!-- NAVBAR -->
             @include('component.navbar')
             <!-- CONTENT -->
@@ -21,7 +21,8 @@
                 @yield('content')
             </main>
             <!-- FOOTER -->
-            <footer class="p-2 text-center text-base-500 sticky bottom-0 bg-base-200 text-sm font-semibold shadow-lg">
+            <footer
+                class="footer footer-center p-4 bg-base-200 text-base-content/70 border-t border-base-300 sticky bottom-0 z-40 mt-auto">
                 <p>&copy;{{ date('Y') }} {{ env('APP_NAME') }}. All rights reserved.</p>
             </footer>
         </div>
