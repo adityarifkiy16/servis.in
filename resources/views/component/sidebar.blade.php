@@ -1,9 +1,9 @@
-<div class="drawer-side">
+<div class="drawer-side z-50 ring-base-300 shadow">
     <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
     <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
         <!-- Logo -->
-        <li class="mb-4 flex flex-row items-center">
-            <img id="main-logo" src="{{ asset('img/logo-light.svg') }}" alt="logo" class="w-12">
+        <li class="mb-4 flex flex-row items-center gap-2">
+            <img id="main-logo" src="{{ asset('img/logo-light.svg') }}" alt="logo" class="w-14">
             <p class="text-lg font-semibold">{{ config('app.name') }}</p>
         </li>
 

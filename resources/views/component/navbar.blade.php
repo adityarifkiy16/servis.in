@@ -1,4 +1,4 @@
-<div class="w-full navbar bg-base-200 px-4">
+<div class="w-full navbar bg-base/20 backdrop-blur-md px-4 sticky top-0 z-20 shadow-lg">
     <!-- Tombol toggle hanya muncul di mobile -->
     <div class="flex-none lg:hidden">
         <label for="my-drawer-2" class="btn btn-square btn-ghost drawer-button">
@@ -8,9 +8,8 @@
         </label>
     </div>
 
-    <div class="flex flex-1 flex-row items-center">
-        <span class="text-lg text-gray-500 ">Welcome <span class="text-base-600 font-bold"> {{ auth()->user()?->name }}
-            </span></span>
+    <div class="flex flex-1 flex-row items-center ml-2">
+        <span class="text-lg text-base-500 font-semibold">{{ config('app.name') }}</span>
     </div>
 
 

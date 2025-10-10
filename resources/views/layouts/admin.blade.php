@@ -20,6 +20,10 @@
             <main class="p-6">
                 @yield('content')
             </main>
+            <!-- FOOTER -->
+            <footer class="p-2 text-center text-base-500 sticky bottom-0 bg-base-200 text-sm font-semibold shadow-lg">
+                <p>&copy;{{ date('Y') }} {{ env('APP_NAME') }}. All rights reserved.</p>
+            </footer>
         </div>
         <!-- SIDEBAR -->
         @include('component.sidebar')
