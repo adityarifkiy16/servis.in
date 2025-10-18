@@ -169,7 +169,8 @@
                                                 d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
                                         </svg>
                                     </a>
-                                    <button onclick="confirmDelete({{ $data->id }})" class="btn btn-error btn-sm">
+                                    <button onclick="confirmDelete({{ $data->id }})"
+                                        class="btn btn-error btn-sm text-white">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                             class="size-5">
                                             <path fill-rule="evenodd"
@@ -221,9 +222,9 @@
                 e.preventDefault(); // mencegah form auto submit (kalau di dalam <form>)
                 const query = search.value.trim();
                 if (query !== '') {
-                    window.location.href = `/services?search=${encodeURIComponent(query)}`;
+                    window.location.href = `/service?search=${encodeURIComponent(query)}`;
                 } else {
-                    window.location.href = '/services';
+                    window.location.href = '/service';
                 }
             }
         });
@@ -264,7 +265,7 @@
         function confirmDelete(userId) {
             const modal = document.getElementById('delete_modal');
             const form = document.getElementById('delete-form');
-            form.action = "{{ route('service.delete', ':id') }}".replace(':id', userId);
+            form.action = "{{ route('service.destroy', ':id') }}".replace(':id', userId);
             modal.showModal();
         }
 

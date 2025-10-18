@@ -22,8 +22,29 @@
             </main>
             <!-- FOOTER -->
             <footer
-                class="footer footer-center p-4 bg-base-200 text-base-content/70 border-t border-base-300 sticky bottom-0 z-40 mt-auto">
-                <p>&copy;{{ date('Y') }} {{ env('APP_NAME') }}. All rights reserved.</p>
+                class="footer footer-horizontal items-center p-4 bg-base-100 text-base-content/70 border-t border-base-100 sticky bottom-0 z-40 mt-auto justify-between">
+                <div class="flex flex-row gap-2 items-center">
+                    <div class="flex flex-row gap-1 items-center">
+                        <a href="https://github.com/adityarifkiy16" target="_blank" class="link link-hover">
+                            <img src="{{ asset('img/social-media/github-svgrepo-com.svg') }}" alt=""
+                                class="w-9">
+                        </a>
+                        <a href="https://linkedin.com/in/adityarifkiyuliatama" target="_blank" class="link link-hover">
+                            <img src="{{ asset('img/social-media/linkedin-svgrepo-com.svg') }}" alt=""
+                                class="w-8">
+                        </a>
+                    </div>
+                    <div class="flex flex-row gap-1">
+                        <span>Developed by</span>
+                        <a href="https://github.com/adityarifkiy16" target="_blank"
+                            class="link link-hover underline">Aditya Rifki
+                            Yuliatama</a>
+                    </div>
+                </div>
+                <p class="flex flex-row gap-1 font-semibold text-gray-500 capitalize">&copy;{{ date('Y') }}
+                    {{ env('APP_NAME') }}. All rights
+                    reserved.</p>
+
             </footer>
         </div>
         <!-- SIDEBAR -->
