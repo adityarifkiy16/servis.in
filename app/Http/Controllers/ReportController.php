@@ -11,6 +11,11 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:download_report');
+    }
+
     /**
      * Display a listing of the resource.
      */

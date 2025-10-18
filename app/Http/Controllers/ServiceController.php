@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:management_service', ['only' => ['index', 'create', 'store', 'edit', 'update', 'destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -119,10 +124,16 @@ class ServiceController extends Controller
             'service_type_id' => 'required|exists:service_type,id',
             'product_id'      => 'required|exists:products,id',
             'description'     => 'nullable|string',
-            'date'            => 'required|date',
-            'status'          => 'nullable|in:0,1,2', // 0: Pending, 1: In Progress, 2: Completed
+            'status'          => 'required|in:0,1,2', // 0: Pending, 1: In Progress, 2: Completed
+            'date'            => 'required|date', // 0: Pending, 1: In Progress, 2: Completed
             'desc_tech'       => 'nullable|string',
         ]);
+        $user = auth()->user();
+        if ($request->status) {
+            if (!$user->hasPermission('update_status')) {
+                return redirect()->route('service.index')->with('error', 'You do not have permission to update the status.');
+            }
+        }
 
         if ($request->status == 2 && $service->status != 2) {
             $type = $service->serviceType;

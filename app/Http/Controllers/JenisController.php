@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class JenisController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:management_product');
+    }
+
     /**
      * Display a listing of the resource.
      */

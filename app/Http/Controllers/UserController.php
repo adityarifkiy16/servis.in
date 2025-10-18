@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:management_users', ['only' => ['index', 'create', 'store', 'edit', 'update', 'destroy']]);
+    }
     public function index(Request $request)
     {
         $query = User::with(['role']);

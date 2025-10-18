@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class DepartementController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:management_departement');
+    }
     /**
      * Display a listing of the resource.
      */

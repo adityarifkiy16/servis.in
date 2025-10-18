@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class ServiceTypeController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('permission:management_service');
+    }
     /**
      * Display a listing of the resource.
      */
