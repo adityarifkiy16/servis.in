@@ -12,7 +12,7 @@ class ServiceController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:management_service', ['only' => ['index', 'create', 'store', 'edit', 'update', 'destroy']]);
+        $this->middleware('permission:management_service');
     }
 
     /**

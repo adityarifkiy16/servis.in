@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:management_roles');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -25,8 +29,6 @@ class RoleController extends Controller
         $arr['permissions'] = Permission::all()->groupBy(function ($item) {
             return explode('_', $item->name)[1];
         });
-
-        // dd($arr);
         return view('role.create', $arr);
     }
 

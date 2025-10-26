@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:management_users', ['only' => ['index', 'create', 'store', 'edit', 'update', 'destroy']]);
+        $this->middleware('permission:management_users');
     }
     public function index(Request $request)
     {

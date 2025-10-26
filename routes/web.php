@@ -42,10 +42,6 @@ Route::middleware(['auth'])->group(function () {
             Route::put('/update/{role}', [App\Http\Controllers\RoleController::class, 'update'])->name('role.update');
             Route::delete('/delete/{role}', [App\Http\Controllers\RoleController::class, 'destroy'])->name('role.delete');
         });
-    });
-
-
-    Route::middleware(['permission:management_roles'])->group(function () {
         Route::prefix('permission')->group(function () {
             Route::get('/', [App\Http\Controllers\PermissionController::class, 'index'])->name('permission.index');
             Route::get('/create', [App\Http\Controllers\PermissionController::class, 'create'])->name('permission.create');
@@ -55,7 +51,6 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/delete/{permission}', [App\Http\Controllers\PermissionController::class, 'destroy'])->name('permission.delete');
         });
     });
-
 
     Route::middleware(['permission:management_product'])->group(function () {
         Route::resource('products', App\Http\Controllers\ProductController::class);
