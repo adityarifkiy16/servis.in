@@ -3,11 +3,10 @@
 @section('title', 'Akses Ditolak')
 
 @section('content')
-    <div
-        class="glass flex flex-row justify-center items-center card shadow-xl w-full max-w-md mx-auto p-8 relative bg-base-100">
+    <div class="glass flex flex-row justify-center items-center card shadow-xl w-full mx-auto p-8 relative bg-base-100">
 
         {{-- Gambar ilustrasi --}}
-        <img src="{{ asset('img/error.svg') }}" alt="Akses Ditolak" class="w-1/2 h-auto mb-4">
+        <img src="{{ asset('img/error.svg') }}" alt="Akses Ditolak" class="w-1/2" />
 
         <div class="text-center flex flex-col items-center">
             {{-- Pesan error --}}
