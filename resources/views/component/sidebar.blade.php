@@ -65,7 +65,7 @@
         @if (
             (auth()->user() && auth()->user()->hasPermission('management_jenis')) ||
                 auth()->user()->hasPermission('management_departments') ||
-                auth()->user()->hasPermission('management_products'))
+                auth()->user()->hasPermission('management_product'))
             {{-- Master Data --}}
             <li>
                 <details open="">
@@ -103,7 +103,7 @@
                                 </a>
                             </li>
                         @endif
-                        @if (auth()->user() && auth()->user()->hasPermission('management_products'))
+                        @if (auth()->user() && auth()->user()->hasPermission('management_product'))
                             <li>
                                 <a href="{{ route('products.index') }}"
                                     class="{{ request()->routeIs('products.index') ? 'active bg-base-300 font-semibold' : '' }}">
