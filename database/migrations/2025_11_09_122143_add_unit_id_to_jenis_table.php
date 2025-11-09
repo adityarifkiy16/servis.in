@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->unsignedBigInteger('unit_id')->nullable()->after('usage');
+        Schema::table('jenis', function (Blueprint $table) {
+            $table->unsignedBigInteger('unit_id')->nullable();
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('jenis', function (Blueprint $table) {
             $table->dropColumn('unit_id');
         });
     }

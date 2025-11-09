@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->unsignedBigInteger('unit_id')->nullable()->after('usage');
+        Schema::create('units', function (Blueprint $table) {
+            $table->id();
+            $table->string('name', 10)->unique();
+            $table->timestamps();
         });
     }
 
@@ -21,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('unit_id');
-        });
+        Schema::dropIfExists('units');
     }
 };

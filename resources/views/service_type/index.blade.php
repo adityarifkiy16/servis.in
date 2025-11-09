@@ -90,6 +90,11 @@
                                     </div>
                                 </td>
                                 <td>
+                                    <div class="flex items-center gap-3">
+                                        <div class="font-bold">{{ $data->jenis->usage_unit ?? '-' }}</div>
+                                    </div>
+                                </td>
+                                <td>
                                     <a href="{{ route('servicetype.edit', $data->id) }}" class="btn btn-primary btn-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                             class="size-5">
