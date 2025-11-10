@@ -15,16 +15,16 @@ class Unit extends Model
 
     public function products()
     {
-        $this->hasMany(Product::class, 'unit_id', 'id');
+        return $this->hasMany(Product::class, 'unit_id', 'id');
     }
 
     public function jenis()
     {
-        $this->hasMany(Jenis::class, 'unit_id', 'id');
+        return $this->hasMany(Jenis::class, 'unit_id', 'id');
     }
 
     public function services()
     {
-        $this->hasMany(Service::class, 'unit_id', 'id');
+        return $this->hasMany(Service::class, 'unit_id', 'id');
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Svg\Tag\Rect;
 use App\Models\Unit;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UnitController extends Controller
 {
@@ -15,9 +17,15 @@ class UnitController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('unit.index');
+        $query = Unit::select('id', 'name');
+        $query->when(isset($request->search), function ($q) use ($request) {
+            $q->where('name', 'LIKE', '%' . $request->search . '%');
+        });
+
+        $arr['units'] = $query->paginate(5);
+        return view('unit.index', $arr);
     }
 
     /**
@@ -34,7 +42,12 @@ class UnitController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:10',
+            'name' => [
+                'required',
+                'string',
+                'max:10',
+                Rule::unique('units', 'name')->whereNull('deleted_at'),
+            ],
         ]);
 
         Unit::create([
@@ -83,5 +96,13 @@ class UnitController extends Controller
         }
         $unit->delete();
         return redirect()->route('unit.index')->with('success', 'Unit deleted successfully.');
+    }
+
+    public function getunit(Request $request)
+    {
+        $unit = Unit::whereHas('jenis', function ($query) use ($request) {
+            $query->where('id', $request->jenis_id);
+        })->first();
+        return response()->json($unit);
     }
 }
