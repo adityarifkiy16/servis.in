@@ -6,7 +6,9 @@ use App\Models\Jenis;
 use App\Models\Product;
 use App\Models\Service;
 use App\Models\Departement;
+use App\Models\ProductUsageLog;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
@@ -44,13 +46,20 @@ class ProductController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'serial_number' => 'required|string|max:255|unique:products',
             'jenis_id' => 'required|exists:jenis,id',
             'departement_id' => 'required|exists:departements,id',
             'usage' => 'nullable|integer|min:0',
-            'usage_unit' => 'nullable|string|max:255',
+            'unit_id' => 'required|exists:units,id',
+            'serial_number' => ['required', 'string', 'max:255', Rule::unique('products', 'serial_number')->whereNull('deleted_at')],
         ]);
-        Product::create($data);
+        $product = Product::create($data);
+        ProductUsageLog::create([
+            'product_id' => $product->id,
+            'old_usage' => $product->usage,
+            'new_usage' => $product->usage,
+            'user_id' => auth()->user()->id
+        ]);
+
         return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }
 
@@ -83,36 +92,53 @@ class ProductController extends Controller
             'serial_number' => 'required|string|max:255|unique:products,serial_number,' . $product->id,
             'jenis_id' => 'required|exists:jenis,id',
             'departement_id' => 'required|exists:departements,id',
-            'usage' => 'nullable|integer|min:0',
-            'usage_unit' => 'nullable|string|max:255',
+            'unit_id' => 'required|exists:units,id',
         ]);
-
-        // Simpan usage lama sebelum update
-        $oldUsage = $product->usage ?? 0;
 
         // Update dulu produk
         $product->update($data);
 
-        // Ambil usage baru setelah update
-        $newUsage = $product->usage ?? 0;
+        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
+    }
 
-        $selisih = $newUsage - $oldUsage;
+    public function editUsage()
+    {
+        $arr['products'] = Product::with(['jenis'])->pluck('usage', 'id')->toArray();
+        return view('product.usage', $arr);
+    }
 
-        if ($selisih > 0) {
-            $servicetypes = $product->jenis->servicetypes;
-            foreach ($servicetypes as $st) {
-                if ($selisih >= $st->interval_usage) {
-                    Service::create([
-                        'product_id'     => $product->id,
-                        'service_type_id' => $st->id,
-                        'status'         => 0,
-                        'description'    => "Auto-generated service (selisih $selisih {$product->usage_unit})",
-                        'date'           => now(),
-                    ]);
+    public function updateUsage(Request $request)
+    {
+        foreach ($request->usage as $id => $usage) {
+            $product = Product::find($id);
+            if ($product) {
+                $oldUsage = $product->usage ?? 0;
+                $product->update(['usage' => $usage]);
+
+                ProductUsageLog::create([
+                    'product_id' => $product->id,
+                    'old_usage' => $oldUsage,
+                    'new_usage' => $usage,
+                    'user_id' => auth()->user()->id
+                ]);
+
+                $selisih = $usage - $oldUsage;
+                if ($selisih > 0) {
+                    $servicetypes = $product->jenis->servicetypes;
+                    foreach ($servicetypes as $st) {
+                        if ($selisih >= $st->interval_usage) {
+                            Service::create([
+                                'product_id'      => $product->id,
+                                'service_type_id' => $st->id,
+                                'status'          => 0,
+                                'description'     => "Auto-generated service (selisih $selisih {$product->usage_unit})",
+                                'date'            => now(),
+                            ]);
+                        }
+                    }
                 }
             }
         }
-
         return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
 

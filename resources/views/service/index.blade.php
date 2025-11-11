@@ -127,12 +127,12 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>
                                     <div class="flex items-center gap-3">
-                                        <div class="font-bold">{{ $data->product->name }}</div>
+                                        <div class="font-bold">{{ $data->product?->name }}</div>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="flex items-center gap-3">
-                                        <div class="font-bold">{{ $data->servicetype->name }}</div>
+                                        <div class="font-bold">{{ $data->servicetype?->name }}</div>
                                     </div>
                                 </td>
                                 <td>

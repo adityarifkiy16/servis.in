@@ -86,12 +86,8 @@
                                 </td>
                                 <td>
                                     <div class="flex items-center gap-3">
-                                        <div class="font-bold">{{ $data->interval_usage ?? '-' }}</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="flex items-center gap-3">
-                                        <div class="font-bold">{{ $data->jenis->usage_unit ?? '-' }}</div>
+                                        <div class="font-bold">{{ $data->interval_usage ?? '-' }}
+                                            {{ $data->jenis->unit->name ?? '-' }}</div>
                                     </div>
                                 </td>
                                 <td>

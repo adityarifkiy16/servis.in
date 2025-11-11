@@ -20,4 +20,9 @@ class Jenis extends Model
     {
         return $this->hasMany(Servicetype::class, 'jenis_id');
     }
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class, 'unit_id');
+    }
 }

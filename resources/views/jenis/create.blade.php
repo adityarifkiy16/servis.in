@@ -54,6 +54,20 @@
                 @enderror
             </div>
 
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Satuan</span>
+                </label>
+                <select name="unit_id" id="unit_id" class="select select-bordered w-full">
+                    @foreach ($units as $unit)
+                        <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                    @endforeach
+                </select>
+                @error('usage_unit')
+                    <span class="text-error text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
             <!-- Action Buttons -->
             <div class="flex justify-end gap-3 mt-6">
                 <a href="{{ route('jenises.index') }}" class="btn btn-ghost">Cancel</a>

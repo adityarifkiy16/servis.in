@@ -24,6 +24,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'management_departement'],
             ['name' => 'update_status'],
             ['name' => 'download_report'],
+            ['name' => 'management_jenis'],
         ];
 
         foreach ($permissions as $permission) {

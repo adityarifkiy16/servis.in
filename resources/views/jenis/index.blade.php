@@ -58,6 +58,7 @@
                     <tr>
                         <th>No</th>
                         <th>Name</th>
+                        <th>Satuan Barang</th>
                         <th class="text-right">Action</th>
                     </tr>
                 </thead>
@@ -69,6 +70,11 @@
                                 <td>
                                     <div class="flex items-center gap-3">
                                         <div class="font-bold">{{ $jenise->name }}</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <div class="font-bold">{{ $jenise->unit->name }}</div>
                                     </div>
                                 </td>
                                 <td class="text-right">

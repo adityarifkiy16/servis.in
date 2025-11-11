@@ -97,6 +97,18 @@
                 @enderror
             </div>
 
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Satuan</span>
+                </label>
+                <select name="unit_id" id="unit_id" class="select select-bordered w-full pointer-events-none">
+                    <option value=""></option>
+                </select>
+                @error('usage_unit')
+                    <span class="text-error text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
 
 
             <!-- Action Buttons -->
@@ -107,3 +119,55 @@
         </form>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            const jenisSelect = $('select[name="jenis_id"]');
+            const unitSelect = $('select[name="unit_id"]');
+
+            // 🔹 Fungsi untuk memuat unit berdasarkan jenis
+            function loadUnits(jenisId) {
+                unitSelect.empty(); // hapus opsi lama
+
+                if (!jenisId) {
+                    unitSelect.append('<option value="">-- Pilih Unit --</option>');
+                    return;
+                }
+
+                $.ajax({
+                    url: '{{ route('getunit') }}',
+                    type: 'GET',
+                    data: {
+                        jenis_id: jenisId
+                    },
+                    success: function(response) {
+                        unitSelect.empty();
+                        console.log(response.length);
+                        if (response && response.id) {
+                            unitSelect.append(
+                                `<option value="${response.id}">${response.name}</option>`);
+                            unitSelect.val(response.id);
+                        } else {
+                            unitSelect.append('<option value="">(Tidak ada unit tersedia)</option>');
+                        }
+                    },
+                    error: function() {
+                        unitSelect.empty().append('<option value="">Gagal memuat unit</option>');
+                    }
+                });
+            }
+
+            // 🔹 Saat user memilih jenis
+            jenisSelect.on('change', function() {
+                const jenisId = $(this).val();
+                loadUnits(jenisId);
+            });
+
+            // 🔹 Saat pertama kali halaman dimuat: pilih jenis pertama & auto load
+            if (jenisSelect.find('option').length > 0) {
+                const firstJenisId = jenisSelect.find('option:first').val();
+                jenisSelect.val(firstJenisId).trigger('change');
+            }
+        });
+    </script>
+@endpush

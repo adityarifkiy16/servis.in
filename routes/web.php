@@ -53,9 +53,12 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware(['permission:management_product'])->group(function () {
+        Route::get('/products/usage', [App\Http\Controllers\ProductController::class, 'editUsage'])->name('products.usage');
+        Route::put('/products/usage', [App\Http\Controllers\ProductController::class, 'updateUsage'])->name('products.updateUsage');
         Route::resource('products', App\Http\Controllers\ProductController::class);
         Route::resource('jenises', App\Http\Controllers\JenisController::class);
         Route::resource('unit', App\Http\Controllers\UnitController::class);
+        Route::get('getunit', [App\Http\Controllers\UnitController::class, 'getunit'])->name('getunit');
     });
 
     Route::middleware(['permission:management_departement'])->group(function () {

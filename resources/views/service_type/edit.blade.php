@@ -31,7 +31,6 @@
                         <path
                             d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
                     </svg>
-
                     Edit Service Type
                 </span>
             </li>
@@ -96,6 +95,17 @@
                     <span class="text-error text-sm">{{ $message }}</span>
                 @enderror
             </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Satuan</span>
+                </label>
+                <select name="unit_id" id="unit_id" class="select select-bordered w-full pointer-events-none">
+                    <option value=""></option>
+                </select>
+                @error('usage_unit')
+                    <span class="text-error text-sm">{{ $message }}</span>
+                @enderror
+            </div>
 
             <!-- Action Buttons -->
             <div class="flex justify-end gap-3 mt-6">
@@ -105,3 +115,61 @@
         </form>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            const jenisSelect = $('select[name="jenis_id"]');
+            const unitSelect = $('select[name="unit_id"]');
+
+            // 🔹 Fungsi untuk memuat unit berdasarkan jenis
+            function loadUnits(jenisId) {
+                unitSelect.empty(); // hapus opsi lama
+
+                if (!jenisId) {
+                    unitSelect.append('<option value="">-- Pilih Unit --</option>');
+                    return;
+                }
+
+                $.ajax({
+                    url: '{{ route('getunit') }}',
+                    type: 'GET',
+                    data: {
+                        jenis_id: jenisId
+                    },
+                    success: function(response) {
+                        unitSelect.empty();
+                        if (response && response.id) {
+                            unitSelect.append(
+                                `<option value="${response.id}">${response.name}</option>`);
+                            unitSelect.val(response.id);
+                        } else {
+                            unitSelect.append('<option value="">(Tidak ada unit tersedia)</option>');
+                        }
+                    },
+                    error: function() {
+                        unitSelect.empty().append('<option value="">Gagal memuat unit</option>');
+                    }
+                });
+            }
+
+            // 🔹 Saat user memilih jenis
+            jenisSelect.on('change', function() {
+                const jenisId = $(this).val();
+                loadUnits(jenisId);
+            });
+
+            // 🔹 Saat halaman edit pertama kali dimuat
+            const currentJenisId = '{{ $servicetype->jenis_id }}';
+            const currentUnitId = '{{ $servicetype->unit_id }}';
+
+            if (currentJenisId) {
+                jenisSelect.val(currentJenisId);
+                loadUnits(currentJenisId, currentUnitId);
+            } else if (jenisSelect.find('option').length > 0) {
+                // fallback kalau tidak ada data
+                const firstJenisId = jenisSelect.find('option:first').val();
+                jenisSelect.val(firstJenisId).trigger('change');
+            }
+        });
+    </script>
+@endpush

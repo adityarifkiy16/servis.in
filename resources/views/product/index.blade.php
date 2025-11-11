@@ -41,7 +41,7 @@
 
     {{-- Main Content --}}
     <div class="w-full max-w-7xl mx-auto card bg-base-100 shadow-md rounded-2xl border border-base-200 my-6 p-6">
-        <h1 class="text-2xl font-bold mb-4">Product Management</h1>
+        <h1 class="text-2xl font-bold mb-4">Manajemen Barang</h1>
         <div class="mb-4 flex justify-between items-center">
             <label class="input input-bordered flex items-center gap-2 w-1/3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-70" fill="none" viewBox="0 0 24 24"
@@ -53,7 +53,10 @@
                     id="search" />
             </label>
 
-            <a href="{{ route('products.create') }}" class="btn btn-outline">Add New Product</a>
+            <div>
+                <a href="{{ route('products.create') }}" class="btn btn-outline btn-primary"> Tambah Barang</a>
+                <a href="{{ route('products.usage') }}" class="btn btn-outline btn-success"> Pemakaian</a>
+            </div>
         </div>
 
         <div class="overflow-x-auto">
@@ -95,7 +98,9 @@
                                 </td>
                                 <td>
                                     <div class="flex items-center gap-3">
-                                        <div class="font-bold">{{ $product->usage ?? '-' }} {{ $product->usage_unit }}</div>
+                                        <div class="font-bold">{{ $product->usage ?? '-' }}
+                                            {{ $product->jenis->unit->name ?? '-' }}
+                                        </div>
                                     </div>
                                 </td>
                                 <td>

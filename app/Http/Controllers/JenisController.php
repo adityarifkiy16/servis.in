@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Unit;
 use App\Models\Jenis;
 use Illuminate\Http\Request;
 
@@ -26,7 +27,8 @@ class JenisController extends Controller
      */
     public function create()
     {
-        return view('jenis.create');
+        $arr['units'] = Unit::all();
+        return view('jenis.create', $arr);
     }
 
     /**
@@ -36,6 +38,7 @@ class JenisController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
+            'unit_id' => 'required|exists:units,id',
         ]);
         Jenis::create($data);
         return redirect()->route('jenises.index')->with('success', 'Jenis created successfully.');
@@ -54,7 +57,9 @@ class JenisController extends Controller
      */
     public function edit(Jenis $jenise)
     {
-        return view('jenis.edit', compact('jenise'));
+        $arr['jenise'] = $jenise;
+        $arr['units'] = Unit::all();
+        return view('jenis.edit', $arr);
     }
 
     /**
@@ -64,6 +69,7 @@ class JenisController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
+            'unit_id' => 'required|exists:units,id',
         ]);
         $jenise->update($data);
         return redirect()->route('jenises.index')->with('success', 'Jenis updated successfully.');
