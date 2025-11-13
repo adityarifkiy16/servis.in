@@ -49,7 +49,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="m21 21-5.2-5.2m0 0A7.5 7.5 0 1 0 5.2 5.2a7.5 7.5 0 0 0 10.6 10.6z" />
                 </svg>
-                <input type="text" placeholder="Search products..." class="bg-transparent focus:outline-none"
+                <input type="text" placeholder="Search Satuan..." class="bg-transparent focus:outline-none"
                     id="search" />
             </label>
 

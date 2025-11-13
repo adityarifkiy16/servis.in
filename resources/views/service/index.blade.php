@@ -113,7 +113,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Produk</th>
+                        <th>Barang</th>
                         <th>Layanan Servis</th>
                         <th>Tanggal Servis</th>
                         <th>Status</th>

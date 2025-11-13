@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('title', 'Usage Management')
+
 @section('content')
     <div class="breadcrumbs text-sm">
         <ul>

@@ -57,10 +57,10 @@
                 <thead>
                     <tr>
                         <td>No</td>
-                        <th>Name</th>
+                        <th>Nama Layanan</th>
                         <th>Jenis</th>
-                        <th>Interval Month</th>
-                        <th>Interval Usage</th>
+                        <th>Interval Bulanan</th>
+                        <th>Interval Pemakaian</th>
                         <th>Action</th>
                     </tr>
                 </thead>
