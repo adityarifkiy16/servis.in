@@ -73,6 +73,9 @@ class DepartementController extends Controller
      */
     public function destroy(Departement $department)
     {
+        if ($department->products()->exists()) {
+            return redirect()->route('departments.index')->with('error', 'Cannot delete departement with associated products.');
+        }
         $department->delete();
         return redirect()->route('departments.index')->with('success', 'Departement deleted successfully.');
     }

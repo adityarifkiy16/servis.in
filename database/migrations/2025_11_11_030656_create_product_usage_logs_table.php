@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('product_usage_logs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('old_usage');
-            $table->unsignedBigInteger('new_usage');
+            $table->unsignedBigInteger('old_usage')->nullable();
+            $table->unsignedBigInteger('new_usage')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });

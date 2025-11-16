@@ -114,6 +114,7 @@
                     <tr>
                         <th>No</th>
                         <th>Produk</th>
+                        <th>Divisi</th>
                         <th>Layanan Servis</th>
                         <th>Tanggal Servis</th>
                         <th>Status</th>
@@ -128,6 +129,11 @@
                                 <td>
                                     <div class="flex items-center gap-3">
                                         <div class="font-bold">{{ $data->product?->name }}</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <div class="font-bold">{{ $data->product?->departement?->name }}</div>
                                     </div>
                                 </td>
                                 <td>

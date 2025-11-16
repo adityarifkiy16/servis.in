@@ -177,6 +177,7 @@ class ServiceController extends Controller
                     'status'    => $request->status,
                     'desc_tech' => $request->desc_tech,
                 ]);
+
                 break;
 
             // === CASE 2: Completed ===

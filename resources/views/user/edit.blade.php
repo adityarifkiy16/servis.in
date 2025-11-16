@@ -68,6 +68,29 @@
                 @enderror
             </div>
 
+            <!-- Password -->
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Password</span>
+                </label>
+                <input type="password" name="password" value="{{ old('password') }}" class="input input-bordered w-full" />
+                @error('password')
+                    <span class="text-error text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Confirm Password</span>
+                </label>
+                <input type="password" name="password_confirmation" value="{{ old('password_confirmation') }}"
+                    class="input input-bordered w-full" />
+                @error('password_confirmation')
+                    <span class="text-error text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
             <!-- Role -->
             <div class="form-control">
                 <label class="label">

@@ -20,7 +20,7 @@
                             d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-5.5-2.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10 12a5.99 5.99 0 0 0-4.793 2.39A6.483 6.483 0 0 0 10 16.5a6.483 6.483 0 0 0 4.793-2.11A5.99 5.99 0 0 0 10 12Z"
                             clip-rule="evenodd" />
                     </svg>
-                    Jenis Management
+                    Manajemen Kategori
                 </a>
             </li>
             <li>
@@ -31,13 +31,13 @@
                         <path
                             d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
                     </svg>
-                    Add Jenis
+                    Tambah Kategori
                 </span>
             </li>
         </ul>
     </div>
     <div class="w-full max-w-7xl px-6 py-4">
-        <h2 class="text-2xl font-bold mb-6">Create Jenis</h2>
+        <h2 class="text-2xl font-bold mb-6">Buat Kategori</h2>
         <form action="{{ route('jenises.store') }}" method="POST" class="space-y-4">
             @csrf
             @method('POST')
@@ -59,9 +59,14 @@
                     <span class="label-text">Satuan</span>
                 </label>
                 <select name="unit_id" id="unit_id" class="select select-bordered w-full">
-                    @foreach ($units as $unit)
-                        <option value="{{ $unit->id }}">{{ $unit->name }}</option>
-                    @endforeach
+                    @if ($units->isEmpty())
+                        <option value="" disabled selected>Tidak ada satuan tersedia</option>
+                    @else
+                        <option value="" selected>-- Pilih Satuan --</option>
+                        @foreach ($units as $unit)
+                            <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                        @endforeach
+                    @endif
                 </select>
                 @error('usage_unit')
                     <span class="text-error text-sm">{{ $message }}</span>

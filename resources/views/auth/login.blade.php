@@ -85,7 +85,6 @@
                             <input type="checkbox" name="remember" class="checkbox checkbox-primary checkbox-sm">
                             <span class="label-text">Ingat Saya</span>
                         </label>
-                        <a href="#" class="link-hover link link-primary">Lupa password?</a>
                     </div>
 
                     <div class="pt-2">

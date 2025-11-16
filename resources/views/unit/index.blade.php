@@ -41,7 +41,7 @@
 
     {{-- Main Content --}}
     <div class="w-full max-w-7xl mx-auto card bg-base-100 shadow-md rounded-2xl border border-base-200 my-6 p-6">
-        <h1 class="text-2xl font-bold mb-4">Unit Management</h1>
+        <h1 class="text-2xl font-bold mb-4 capitalize">manajemen satuan barang</h1>
         <div class="mb-4 flex justify-between items-center w-full gap-2">
             <label class="input input-bordered flex items-center gap-2 w-1/2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-70" fill="none" viewBox="0 0 24 24"
@@ -49,7 +49,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="m21 21-5.2-5.2m0 0A7.5 7.5 0 1 0 5.2 5.2a7.5 7.5 0 0 0 10.6 10.6z" />
                 </svg>
-                <input type="text" placeholder="Search products..." class="bg-transparent focus:outline-none"
+                <input type="text" placeholder="Cari satuan..." class="bg-transparent focus:outline-none"
                     id="search" />
             </label>
 

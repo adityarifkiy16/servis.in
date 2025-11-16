@@ -41,7 +41,7 @@
 
     {{-- Main Content --}}
     <div class="w-full max-w-7xl mx-auto card bg-base-100 shadow-md rounded-2xl border border-base-200 my-6 p-6">
-        <h1 class="text-2xl font-bold mb-4">Jenis Management</h1>
+        <h1 class="text-2xl font-bold mb-4">Manajemen Kategori</h1>
         <div class="mb-4 flex justify-between items-center">
             <a href="{{ route('jenises.create') }}" class="btn btn-outline">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -49,7 +49,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
-                Add New Jenis</a>
+                Add New Kategori</a>
         </div>
 
         <div class="overflow-x-auto">
@@ -74,7 +74,7 @@
                                 </td>
                                 <td>
                                     <div class="flex items-center gap-3">
-                                        <div class="font-bold">{{ $jenise->unit->name }}</div>
+                                        <div class="font-bold">{{ $jenise->unit?->name ?? 'Tidak ada satuan' }}</div>
                                     </div>
                                 </td>
                                 <td class="text-right">

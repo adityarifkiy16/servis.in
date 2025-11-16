@@ -41,7 +41,7 @@
 
     {{-- Main Content --}}
     <div class="w-full max-w-7xl mx-auto card bg-base-100 shadow-md rounded-2xl border border-base-200 my-6 p-6">
-        <h1 class="text-2xl font-bold mb-4">User Management</h1>
+        <h1 class="text-2xl font-bold mb-4 capitalize">manajemen pengguna</h1>
         <div class="mb-4 flex justify-between items-center">
             <label class="input input-bordered flex items-center gap-2 w-1/3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-70" fill="none" viewBox="0 0 24 24"
@@ -49,7 +49,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="m21 21-5.2-5.2m0 0A7.5 7.5 0 1 0 5.2 5.2a7.5 7.5 0 0 0 10.6 10.6z" />
                 </svg>
-                <input type="text" placeholder="Search users..." class="grow bg-transparent focus:outline-none"
+                <input type="text" placeholder="Cari pengguna..." class="grow bg-transparent focus:outline-none"
                     id="search" />
             </label>
 
@@ -59,7 +59,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
                 </svg>
-                Add New User</a>
+                Tambah Pengguna</a>
         </div>
 
         <div class="overflow-x-auto">
@@ -69,7 +69,7 @@
                         <th>No</th>
                         <th>Name</th>
                         <th>Role</th>
-                        <th>Created At</th>
+                        <th>Dibuat</th>
                         <th class="text-right">Action</th>
                     </tr>
                 </thead>
@@ -99,25 +99,32 @@
 
                             </td>
                             <td>{{ $user->created_at->format('d M Y') }}</td>
-                            <td class="text-right">
-                                <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary btn-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                        class="size-5">
-                                        <path
-                                            d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
-                                        <path
-                                            d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
-                                    </svg>
-                                </a>
-                                <button onclick="confirmDelete({{ $user->id }})" class="btn btn-error btn-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                        class="size-5">
-                                        <path fill-rule="evenodd"
-                                            d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </button>
-                            </td>
+                            @if ($user->id !== 1)
+                                <td class="text-right">
+                                    <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary btn-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            class="size-5">
+                                            <path
+                                                d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                                            <path
+                                                d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                                        </svg>
+                                    </a>
+                                    <button onclick="confirmDelete({{ $user->id }})"
+                                        class="btn btn-error btn-sm text-white">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            class="size-5">
+                                            <path fill-rule="evenodd"
+                                                d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </td>
+                            @else
+                                <td class="text-right">
+                                    <span class="text-sm text-base-content/70 italic">No Authorization</span>
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                 </tbody>

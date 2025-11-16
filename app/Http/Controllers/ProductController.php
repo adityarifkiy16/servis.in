@@ -49,7 +49,7 @@ class ProductController extends Controller
             'jenis_id' => 'required|exists:jenis,id',
             'departement_id' => 'required|exists:departements,id',
             'usage' => 'nullable|integer|min:0',
-            'unit_id' => 'required|exists:units,id',
+            'unit_id' => 'nullable|exists:units,id',
             'serial_number' => ['required', 'string', 'max:255', Rule::unique('products', 'serial_number')->whereNull('deleted_at')],
         ]);
         $product = Product::create($data);
@@ -89,7 +89,7 @@ class ProductController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'serial_number' => 'required|string|max:255|unique:products,serial_number,' . $product->id,
+            'serial_number' => ['required', 'string', 'max:255', Rule::unique('products', 'serial_number')->ignore($product->id)->whereNull('deleted_at')],
             'jenis_id' => 'required|exists:jenis,id',
             'departement_id' => 'required|exists:departements,id',
             'unit_id' => 'required|exists:units,id',
@@ -148,6 +148,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        if ($product->services()->exists()) {
+            return redirect()->route('products.index')->with('error', 'Cannot delete product with associated services.');
+        }
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
     }

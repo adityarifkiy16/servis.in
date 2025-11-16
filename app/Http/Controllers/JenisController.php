@@ -38,7 +38,7 @@ class JenisController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'unit_id' => 'required|exists:units,id',
+            'unit_id' => 'nullable|exists:units,id',
         ]);
         Jenis::create($data);
         return redirect()->route('jenises.index')->with('success', 'Jenis created successfully.');
@@ -80,6 +80,13 @@ class JenisController extends Controller
      */
     public function destroy(Jenis $jenise)
     {
+        if ($jenise->products()->exists()) {
+            return redirect()->route('jenises.index')->with('error', 'Cannot delete jenis with associated products.');
+        }
+
+        if ($jenise->servicetypes()->exists()) {
+            return redirect()->route('jenises.index')->with('error', 'Cannot delete jenis with associated service types.');
+        }
         $jenise->delete();
         return redirect()->route('jenises.index')->with('success', 'Jenis deleted successfully.');
     }

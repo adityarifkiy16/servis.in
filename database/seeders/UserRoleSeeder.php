@@ -7,7 +7,7 @@ use App\Models\Role;
 use App\Models\Permission;
 use App\Models\User;
 
-class PermissionSeeder extends Seeder
+class UserRoleSeeder extends Seeder
 {
     public function run(): void
     {
@@ -52,10 +52,10 @@ class PermissionSeeder extends Seeder
         // Assign permission ke role
         $admin->permissions()->sync($allPermissions->pluck('id')); // Admin punya semua
         $pic->permissions()->sync(
-            Permission::where('name', 'management_service')->pluck('id')
+            Permission::whereIn('name', ['management_service', 'management_product', 'download_report', 'management_jenis'])->pluck('id')
         );
         $teknisi->permissions()->sync(
-            Permission::whereIn('name', ['management_service', 'update_status'])->pluck('id')
+            Permission::whereIn('name', ['management_service', 'update_status', 'download_report'])->pluck('id')
         );
 
         // Buat user admin
