@@ -54,8 +54,19 @@
             </label>
 
             <div>
-                <a href="{{ route('products.create') }}" class="btn btn-outline btn-primary"> Tambah Barang</a>
-                <a href="{{ route('products.usage') }}" class="btn btn-outline btn-success"> Pemakaian</a>
+                <a href="{{ route('products.create') }}" class="btn btn-outline btn-primary"><svg
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg> Tambah Barang</a>
+                <a href="{{ route('products.usage') }}" class="btn btn-outline btn-success"><svg
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                        <path fill-rule="evenodd"
+                            d="M2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0Zm8 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm-3-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm7 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Pemakaian</a>
             </div>
         </div>
 
