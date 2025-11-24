@@ -9,7 +9,7 @@
     </div>
 
     <div class="flex flex-1 flex-row items-center ml-2">
-        <span class="text-lg text-base-500 font-semibold">{{ config('app.name') }}</span>
+        <span class="text-lg text-base-500 font-semibold">Sistem Informasi Servis Berkala </span>
     </div>
 
 

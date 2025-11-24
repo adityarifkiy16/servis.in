@@ -92,7 +92,7 @@ class ProductController extends Controller
             'serial_number' => ['required', 'string', 'max:255', Rule::unique('products', 'serial_number')->ignore($product->id)->whereNull('deleted_at')],
             'jenis_id' => 'required|exists:jenis,id',
             'departement_id' => 'required|exists:departements,id',
-            'unit_id' => 'required|exists:units,id',
+            'unit_id' => 'nullable|exists:units,id',
         ]);
 
         // Update dulu produk
