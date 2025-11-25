@@ -84,6 +84,10 @@
                                 @endif
                             </td>
                             <td class="text-right">
+                                @if (in_array($role->id, [1, 2, 3]))
+                                    <span class="text-gray-500 italic">Protected Role</span>
+                                    @continue
+                                @endif
                                 <a href="{{ route('role.edit', $role->id) }}" class="btn btn-primary btn-sm">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                         class="size-5">
