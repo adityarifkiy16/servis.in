@@ -23,16 +23,23 @@
                                 {{ ucfirst(str_replace('_', ' ', $key)) }}
                             @endif
                         </div>
-                        <div class="p-2 rounded-full bg-gray-100 text-gray-600">
+                        <div
+                            class="p-2 rounded-full
+                        @if ($key == 'services_schedules') bg-warning text-white
+                        @elseif ($key == 'users')
+                            bg-info text-white
+                        @elseif ($key == 'products')
+                            bg-red-500 text-white @endif
+                        ">
                             @if ($key == 'services_schedules')
                                 {{-- Icon Warning / Schedule --}}
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                     stroke="currentColor" class="size-6">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71
-                                                                                                                                                    c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378
-                                                                                                                                                    c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12
-                                                                                                                                                    15.75h.007v.008H12v-.008Z" />
+                                                                                                                                                                                                                            c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378
+                                                                                                                                                                                                                            c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12
+                                                                                                                                                                                                                            15.75h.007v.008H12v-.008Z" />
                                 </svg>
                             @elseif ($key == 'users')
                                 {{-- Icon User --}}
@@ -47,8 +54,8 @@
                                     stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M7 8h10M7 12h8m-9 8h10a2 2 0
-                                                                                                                                                    002-2V6a2 2 0 00-2-2H9l-2 2H5a2
-                                                                                                                                                    2 0 00-2 2v10a2 2 0 002 2z" />
+                                                                                                                                                                                                                            002-2V6a2 2 0 00-2-2H9l-2 2H5a2
+                                                                                                                                                                                                                            2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
                             @endif
                         </div>

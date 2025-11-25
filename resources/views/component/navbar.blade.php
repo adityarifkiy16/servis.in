@@ -1,4 +1,4 @@
-<div class="w-full navbar bg-base/20 backdrop-blur-md px-4 sticky top-0 z-20 shadow-lg">
+<div class="w-full navbar bg-base/20 backdrop-blur-md px-4 sticky top-0 z-20 shadow-lg rounded-lg mx-auto max-w-5xl">
     <!-- Tombol toggle hanya muncul di mobile -->
     <div class="flex-none lg:hidden">
         <label for="my-drawer-2" class="btn btn-square btn-ghost drawer-button">
