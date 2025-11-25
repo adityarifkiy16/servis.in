@@ -50,7 +50,7 @@
                     <option disabled selected>Pilih Tipe Servis</option>
                     @foreach ($servicetypes as $data)
                         <option value="{{ $data->id }}" data-jenis="{{ $data->jenis_id }}">
-                            {{ $data->name }}
+                            {{ $data->name }} - {{ $data->jenis->name }}
                         </option>
                     @endforeach
                 </select>
