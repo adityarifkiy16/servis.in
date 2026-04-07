@@ -125,24 +125,28 @@ class ServiceController extends Controller
             'product_id'      => 'required|exists:products,id',
             'description'     => 'nullable|string',
             'status'          => 'required|in:0,1,2', // 0: Pending, 1: In Progress, 2: Completed
-            'date'            => 'required|date', // 0: Pending, 1: In Progress, 2: Completed
+            'date'            => 'required|date',
             'desc_tech'       => 'nullable|string',
         ]);
         $user = auth()->user();
+        $nextDate = null;
+
         if ($request->status) {
             if (!$user->hasPermission('update_status')) {
                 return redirect()->route('service.index')->with('error', 'You do not have permission to update the status.');
             }
         }
 
+        if ($request->date) {
+            $nextDate = \Carbon\Carbon::parse($request->date);
+        }
+
         if ($request->status == 2 && $service->status != 2) {
             $type = $service->serviceType;
             if ($type) {
-                $nextDate = null;
 
                 if ($type->interval_month) {
-                    $nextDate = \Carbon\Carbon::parse($service->date)
-                        ->addMonths($type->interval_month);
+                    $nextDate = $nextDate->addMonths($type->interval_month);
                 }
 
                 if ($nextDate) {
