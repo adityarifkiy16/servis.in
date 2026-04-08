@@ -43,6 +43,22 @@
         <form action="{{ route('service.update', $service->id) }}" method="POST" class="space-y-4">
             @csrf
             @method('PUT')
+            <!-- Product -->
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Barang</span>
+                </label>
+                <select id="product_id" name="product_id"
+                    class="select select-bordered w-full pointer-events-none bg-gray-100">
+                    <option value="{{ $product->id }}" selected>
+                        {{ $product->name }} - {{ $product->jenis->name ?? '-' }}
+                    </option>
+                </select>
+
+                @error('product_id')
+                    <span class="text-error text-sm">{{ $message }}</span>
+                @enderror
+            </div>
 
             <div class="form-control">
                 <label class="label">
@@ -63,25 +79,7 @@
                 @enderror
             </div>
 
-            <!-- Product -->
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Barang</span>
-                </label>
-                <select id="product_id" name="product_id" class="select select-bordered w-full">
-                    <option disabled {{ $service->product_id ? '' : 'selected' }}>Pilih Barang</option>
-                    @foreach ($products as $data)
-                        <option value="{{ $data->id }}" data-jenis="{{ $data->jenis_id }}"
-                            {{ $service->product_id == $data->id ? 'selected' : '' }}>
-                            {{ $data->name }}
-                        </option>
-                    @endforeach
-                </select>
 
-                @error('product_id')
-                    <span class="text-error text-sm">{{ $message }}</span>
-                @enderror
-            </div>
 
             <!-- Interval Month -->
             <div class="form-control">
@@ -137,7 +135,7 @@
 
             <!-- Action Buttons -->
             <div class="flex justify-end gap-3 mt-6">
-                <a href="{{ route('service.index') }}" class="btn btn-ghost">Cancel</a>
+                <a href="{{ route('services.list', $service->product_id) }}" class="btn btn-ghost">Back</a>
                 <button type="submit" class="btn btn-primary">Update</button>
             </div>
         </form>

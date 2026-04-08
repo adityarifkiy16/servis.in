@@ -68,11 +68,10 @@ class ServiceController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Product $product)
     {
-        $servicetypes = ServiceType::all();
-        $arr['products'] = Product::whereIn('jenis_id', $servicetypes->pluck('jenis_id'))->get();
-        $arr['servicetypes'] = \App\Models\ServiceType::all();
+        $arr['servicetypes'] = \App\Models\ServiceType::where('jenis_id', $product->jenis_id)->get();
+        $arr['product'] = $product;
         return view('service.create', $arr);
     }
 
@@ -92,7 +91,7 @@ class ServiceController extends Controller
         $data['status'] = '0'; // Default status to 'Pending'
 
         Service::create($data);
-        return redirect()->route('service.index')->with('success', 'Service created successfully.');
+        return redirect()->back()->with('success', 'Service created successfully.');
     }
 
     /**
@@ -109,9 +108,8 @@ class ServiceController extends Controller
     public function edit(Service $service)
     {
         $arr['service'] = $service;
-        $servicetypes = ServiceType::all();
-        $arr['products'] = Product::whereIn('jenis_id', $servicetypes->pluck('jenis_id'))->get();
-        $arr['servicetypes'] = $servicetypes;
+        $arr['servicetypes'] = \App\Models\ServiceType::where('jenis_id', $service->product->jenis_id)->get();
+        $arr['product'] = $service->product;
         return view('service.edit', $arr);
     }
 
@@ -189,10 +187,17 @@ class ServiceController extends Controller
                 $service->update([
                     'desc_tech' => $request->desc_tech,
                 ]);
-                return redirect()->route('service.index')->with('error', 'Service is already completed.');
+                return redirect()->route('services.list', $request->product_id)->with('error', 'Service is already completed.');
                 break;
         }
-        return redirect()->route('service.index')->with('success', 'Service updated successfully.');
+        return redirect()->route('services.list', $request->product_id)->with('success', 'Service updated successfully.');
+    }
+
+    public function listByProduct(Product $product)
+    {
+        $arr['services'] = $product->services()->with('serviceType')->orderBy('created_at', 'desc')->paginate(10);
+        $arr['product'] = $product;
+        return view('service.service-list', $arr);
     }
 
     /**
@@ -201,6 +206,6 @@ class ServiceController extends Controller
     public function destroy(Service $service)
     {
         $service->delete();
-        return redirect()->route('service.index')->with('success', 'Service deleted successfully.');
+        return redirect()->back()->with('success', 'Service deleted successfully.');
     }
 }

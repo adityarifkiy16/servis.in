@@ -21,11 +21,12 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Product::with(['jenis', 'departement']);
+        $query = Departement::with('products');
         $query->when(isset($request->search), function ($q) use ($request) {
             $q->where('name', 'LIKE', '%' . $request->search . '%');
         });
-        $arr['products'] = $query->orderBy('name', 'asc')->paginate(5);
+
+        $arr['departements'] = $query->orderBy('name', 'asc')->paginate(5);
         return view('product.index', $arr);
     }
 
@@ -122,17 +123,23 @@ class ProductController extends Controller
                     'user_id' => auth()->user()->id
                 ]);
 
-                $selisih = $usage - $oldUsage;
-                if ($selisih > 0) {
-                    $servicetypes = $product->jenis->servicetypes;
-                    foreach ($servicetypes as $st) {
-                        if ($selisih >= $st->interval_usage) {
+
+                $servicetypes = $product->jenis->servicetypes;
+                foreach ($servicetypes as $st) {
+                    if (!isset($st->interval_usage)) continue;
+                    $interval = $st->interval_usage;
+
+                    $oldStep = floor($oldUsage / $interval);
+                    $newStep = floor($usage / $interval);
+
+                    if ($newStep > $oldStep) {
+                        for ($i = $oldStep + 1; $i <= $newStep; $i++) {
                             Service::create([
-                                'product_id'      => $product->id,
+                                'product_id' => $product->id,
                                 'service_type_id' => $st->id,
-                                'status'          => 0,
-                                'description'     => "Auto-generated service (selisih $selisih {$product->usage_unit})",
-                                'date'            => now(),
+                                'description' => 'Automatic service for reaching usage ' . ($i * $interval),
+                                'date' => now(),
+                                'status' => 0
                             ]);
                         }
                     }
@@ -142,6 +149,12 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
 
+    public function listByDepartment(Departement $department)
+    {
+        $arr['products'] = $department->products()->with('jenis')->orderBy('name', 'asc')->paginate(10);
+        $arr['department'] = $department->name;
+        return view('product.product-list', $arr);
+    }
 
     /**
      * Remove the specified resource from storage.

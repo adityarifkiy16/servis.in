@@ -42,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
             Route::put('/update/{role}', [App\Http\Controllers\RoleController::class, 'update'])->name('role.update');
             Route::delete('/delete/{role}', [App\Http\Controllers\RoleController::class, 'destroy'])->name('role.delete');
         });
+
         Route::prefix('permission')->group(function () {
             Route::get('/', [App\Http\Controllers\PermissionController::class, 'index'])->name('permission.index');
             Route::get('/create', [App\Http\Controllers\PermissionController::class, 'create'])->name('permission.create');
@@ -55,6 +56,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['permission:management_product'])->group(function () {
         Route::get('/products/usage', [App\Http\Controllers\ProductController::class, 'editUsage'])->name('products.usage');
         Route::put('/products/usage', [App\Http\Controllers\ProductController::class, 'updateUsage'])->name('products.updateUsage');
+        Route::get('/products/list/{department}', [App\Http\Controllers\ProductController::class, 'listByDepartment'])->name('products.listByDepartment');
         Route::resource('products', App\Http\Controllers\ProductController::class);
         Route::resource('jenises', App\Http\Controllers\JenisController::class);
         Route::resource('unit', App\Http\Controllers\UnitController::class);
@@ -67,6 +69,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['permission:management_service'])->group(function () {
         Route::resource('servicetype', App\Http\Controllers\ServiceTypeController::class);
+        Route::prefix('services')->group(function () {
+            Route::get('/list/{product}', [App\Http\Controllers\ServiceController::class, 'listByProduct'])->name('services.list');
+            Route::get('/create/{product}', [App\Http\Controllers\ServiceController::class, 'create'])->name('services.create.byProduct');
+        });
         Route::resource('service', App\Http\Controllers\ServiceController::class);
     });
 

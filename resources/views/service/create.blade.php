@@ -41,6 +41,21 @@
         <form action="{{ route('service.store') }}" method="POST" class="space-y-4">
             @csrf
             @method('POST')
+            <!-- Product -->
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Barang</span>
+                </label>
+                <select id="product_id" name="product_id" class="select select-bordered w-full">
+                    <option value="{{ $product->id }}" selected>
+                        {{ $product->name }} - {{ $product->jenis->name ?? '-' }}
+                    </option>
+                </select>
+
+                @error('product_id')
+                    <span class="text-error text-sm">{{ $message }}</span>
+                @enderror
+            </div>
 
             <div class="form-control">
                 <label class="label">
@@ -60,24 +75,7 @@
                 @enderror
             </div>
 
-            <!-- Product -->
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Barang</span>
-                </label>
-                <select id="product_id" name="product_id" class="select select-bordered w-full">
-                    <option disabled selected>Pilih Barang</option>
-                    @foreach ($products as $data)
-                        <option value="{{ $data->id }}" data-jenis="{{ $data->jenis_id }}">
-                            {{ $data->name }}
-                        </option>
-                    @endforeach
-                </select>
 
-                @error('product_id')
-                    <span class="text-error text-sm">{{ $message }}</span>
-                @enderror
-            </div>
 
             <!-- Description -->
             <div class="form-control">
@@ -103,7 +101,7 @@
 
             <!-- Action Buttons -->
             <div class="flex justify-end gap-3 mt-6">
-                <a href="{{ route('service.index') }}" class="btn btn-ghost">Cancel</a>
+                <a href="{{ route('services.list', $product->id) }}" class="btn btn-ghost">Cancel</a>
                 <button type="submit" class="btn btn-primary">Create</button>
             </div>
         </form>

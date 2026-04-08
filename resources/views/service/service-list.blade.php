@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Service Management')
+@section('title', 'List Service for ' . $product->name)
 
 @section('content')
     {{-- Flash Message - Improved Version --}}
@@ -41,103 +41,65 @@
 
     {{-- Main Content --}}
     <div class="w-full max-w-7xl mx-auto card bg-base-100 shadow-md rounded-2xl border border-base-200 my-6 p-6">
-        <h1 class="text-2xl font-bold mb-4">List Servis</h1>
-        <div class="mb-4 flex justify-between items-center w-full gap-2">
-            <label class="input input-bordered flex items-center gap-2 w-1/2">
+        <h1 class="text-2xl font-bold mb-4">List Service - {{ $product->name }}</h1>
+        <div class="mb-4 flex justify-between items-center">
+            <label class="input input-bordered flex items-center gap-2 w-1/3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-70" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="m21 21-5.2-5.2m0 0A7.5 7.5 0 1 0 5.2 5.2a7.5 7.5 0 0 0 10.6 10.6z" />
                 </svg>
-                <input type="text" placeholder="kolom pencarian" class="bg-transparent focus:outline-none"
+                <input type="text" placeholder="Kolom pencarian" class="grow bg-transparent focus:outline-none"
                     id="search" />
             </label>
 
-            <div class="flex gap-2 w-full">
-                <form action="{{ route('service.index') }}" method="GET" class="flex items-center gap-2">
-                    <!-- Filter Departemen -->
-                    <select name="department_id" class="select select-bordered">
-                        <option value="">ALL</option>
-                        @foreach ($departments as $dept)
-                            <option value="{{ $dept->id }}"
-                                {{ request('department_id') == $dept->id ? 'selected' : '' }}>
-                                {{ $dept->name }}
-                            </option>
-                        @endforeach
-                    </select>
-
-                    <!-- Filter Status -->
-                    <select name="status" class="select select-bordered">
-                        <option value=""> Status </option>
-                        <option value="0" {{ request('status') !== null ? 'selected' : '' }}>Pending</option>
-                        <option value="1" {{ request('status') == 1 ? 'selected' : '' }}>Proses</option>
-                        <option value="2" {{ request('status') == 2 ? 'selected' : '' }}>Selesai</option>
-                    </select>
-
-                    <!-- Filter Layanan Servis -->
-                    <select name="service_type_id" class="select select-bordered">
-                        <option value="">Layanan</option>
-                        @foreach ($servicetypes as $type)
-                            <option value="{{ $type->id }}"
-                                {{ request('service_type_id') == $type->id ? 'selected' : '' }}>
-                                {{ $type->name }}
-                            </option>
-                        @endforeach
-                    </select>
-
-                    <!-- Filter Tanggal -->
-                    <input type="date" name="date" class="input input-bordered" value="{{ request('date') }}">
-
-                    <button type="submit" class="btn btn-md btn-primary">
-                        <p class="uppercase">filter</p>
-                    </button>
-                </form>
-
+            <div>
+                <a href="{{ route('products.listByDepartment', $product->departement) }}"
+                    class="btn btn-outline btn-secondary">
+                    Kembali
+                </a>
+                <a href="{{ route('services.create.byProduct', $product) }}" class="btn btn-outline btn-primary"><svg
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg> Tambah Service</a>
             </div>
         </div>
 
         <div class="overflow-x-auto">
-            <table class="table w-full">
+            <table class="table table-zebra w-full">
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Produk</th>
-                        <th>Divisi</th>
-                        <th>Layanan Servis</th>
-                        <th>Tanggal Servis</th>
+                        <th>Layanan Service</th>
+                        <th>Tanggal</th>
                         <th>Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if ($services->isNotEmpty())
-                        @foreach ($services as $data)
+                        @foreach ($services as $item)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
                                 <td>
                                     <div class="flex items-center gap-3">
-                                        <div class="font-bold">{{ $data->product?->name }}</div>
+                                        <div class="font-bold">{{ $loop->iteration }}</div>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="flex items-center gap-3">
-                                        <div class="font-bold">{{ $data->product?->departement?->name }}</div>
+                                        <div class="font-bold">{{ $item->servicetype?->name }}</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="font-bold">
+                                        {{ \Carbon\Carbon::parse($item->date)->locale('id')->translatedFormat('d F Y') }}
                                     </div>
                                 </td>
                                 <td>
                                     <div class="flex items-center gap-3">
-                                        <div class="font-bold">{{ $data->servicetype?->name }}</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="flex items-center gap-3">
-                                        <div class="font-bold">
-                                            {{ \Carbon\Carbon::parse($data->date)->locale('id')->translatedFormat('d F Y') }}
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="flex items-center gap-3">
-                                        @switch($data->status)
+                                        @switch($item->status)
                                             @case(0)
                                                 <div
                                                     class="flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 font-semibold text-sm">
@@ -164,11 +126,20 @@
                                         @endswitch
                                     </div>
                                 </td>
+                                <td>
+                                    <a href="{{ route('service.edit', $item->id) }}" class="btn btn-primary btn-sm">
+                                        <p class="uppercase">edit</p>
+                                    </a>
+                                    <button onclick="confirmDelete({{ $item->id }})"
+                                        class="btn btn-error btn-sm text-white">
+                                        <p class="uppercase">hapus</p>
+                                    </button>
+                                </td>
                             </tr>
                         @endforeach
                     @else
                         <tr>
-                            <td colspan="5">No Service found.</td>
+                            <td colspan="5">Tidak ada data.</td>
                         </tr>
                     @endif
                 </tbody>
@@ -182,8 +153,8 @@
     {{-- Delete Confirmation Modal --}}
     <dialog id="delete_modal" class="modal">
         <div class="modal-box">
-            <h3 class="font-bold text-lg">Confirm Delete</h3>
-            <p class="py-4">Are you sure you want to delete this user? This action cannot be undone.</p>
+            <h3 class="font-bold text-lg">Konfirmasi Hapus</h3>
+            <p class="py-4">Apakah anda yakin ingin menghapus? aksi ini tidak dapat di undo.</p>
             <div class="modal-action">
                 <form method="dialog">
                     <button class="btn">Cancel</button>
@@ -207,13 +178,12 @@
                 e.preventDefault(); // mencegah form auto submit (kalau di dalam <form>)
                 const query = search.value.trim();
                 if (query !== '') {
-                    window.location.href = `/service?search=${encodeURIComponent(query)}`;
+                    window.location.href = `/products?search=${encodeURIComponent(query)}`;
                 } else {
-                    window.location.href = '/service';
+                    window.location.href = '/products';
                 }
             }
-        });
-
+        })
         // Flash Message Auto Hide dengan Improved Error Handling
         function autoHideFlashMessage() {
             const flashMessages = document.querySelectorAll('[id^="flash-message"]');
